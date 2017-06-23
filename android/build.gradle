@@ -22,3 +22,7 @@ allprojects {
         }
     }
 }
+
+ext {
+    supportVersion = '25.3.1'
+}
