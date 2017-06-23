@@ -2,12 +2,13 @@
  * Created by saionara1 on 6/21/17.
  */
 import React, {Component} from "react";
-import {StatusBar, Text, View,Image} from "react-native";
+import {Image, StatusBar, Text} from "react-native";
 import {Button, Container, Content} from "native-base";
 import colors from "../resources/colors";
 import ValidationTextInput from "./ValidationTextInput";
 import consts from "../const";
 import dimens from "../resources/dimens";
+import strings from "../resources/strings"
 
 export default class Login extends Component {
     static navigationOptions = {
@@ -20,14 +21,15 @@ export default class Login extends Component {
             <Container style={loginStyles.containerStyle}>
                 <StatusBar style={loginStyles.statusBarStyle}/>
                 <Content contentContainerStyle={loginStyles.contentStyle}>
+                    <Image style={loginStyles.imageStyle} source={{uri: 'ic_yalantis'}}/>
                     <ValidationTextInput
                         validate={(text) => this.validateEmail(text)}
-                        label={'Email'}
+                        label={strings.github_email}
                         style={loginStyles.emailStyle}
                         color={colors.accentColor}/>
                     <ValidationTextInput
                         validate={(text) => this.validatePassword(text)}
-                        label={'Password'}
+                        label={strings.password}
                         style={loginStyles.emailStyle}
                         color={colors.accentColor}/>
 
@@ -44,42 +46,45 @@ export default class Login extends Component {
     }
 
     validatePassword(text) {
-        if (text < consts.MIN_PASSWORD_LENGTH) {
-            return false;
-        }
-        return true;
+        return text >= consts.MIN_PASSWORD_LENGTH;
+
     }
 }
 
 
 const loginStyles = {
-    containerStyle: {
-        flexDirection: 'row',
-        backgroundColor: colors.primaryColor,
-        alignItems: 'center'
-    },
-    contentStyle: {
-        flex: 0,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'stretch',
-        marginHorizontal: dimens.margin_large
-    },
-    statusBarStyle: {
-        backgroundColor: colors.primaryColor
-    },
-    emailStyle: {
-        alignSelf: 'stretch',
-    },
-    buttonStyle: {
-        marginTop: dimens.margin_medium,
-        alignSelf: 'stretch',
-        justifyContent: 'center',
-        backgroundColor: colors.accentColor
-    },
-    buttonTextStyle: {
-        color: 'white',
-        fontSize: dimens.text_size_button
+        containerStyle: {
+            flexDirection: 'row',
+            backgroundColor: colors.primaryColor,
+            alignItems: 'center'
+        },
+        contentStyle: {
+            flex: 0,
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'stretch',
+            marginHorizontal: dimens.margin_large
+        },
+        statusBarStyle: {
+            backgroundColor: colors.primaryColor
+        },
+        emailStyle: {
+            alignSelf: 'stretch',
+        },
+        buttonStyle: {
+            marginTop: dimens.margin_medium,
+            alignSelf: 'stretch',
+            justifyContent: 'center',
+            backgroundColor: colors.accentColor
+        },
+        buttonTextStyle: {
+            color: 'white',
+            fontSize: dimens.text_size_button
+        },
+        imageStyle: {
+            width: 150,
+            height: 150,
+        }
     }
-};
+;

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Content, Input, Item, Label, Text} from "native-base";
-
+import strings from "../resources/strings"
 
 export default class ValidationTextInput extends Component {
 
@@ -49,12 +49,12 @@ export default class ValidationTextInput extends Component {
     setError(event) {
         if (!this.props.validate(event.nativeEvent.text)) {
             if (!event.nativeEvent.text || event.nativeEvent.text === "") {
-                this.setState({error: "Cannot be empty"});
+                this.setState({error: strings.empty_error});
             } else {
                 this.setState({error: this.props.error});
             }
         } else {
-            this.setState({error: " "});
+            this.setState({error: ""});
         }
     }
 }
