@@ -3,7 +3,7 @@
  */
 import React, {Component} from "react";
 import {Image, StatusBar, Text} from "react-native";
-import {Button, Container, Content} from "native-base";
+import {Button, Container, Content,ActivityIndicator} from "native-base";
 import colors from "../resources/colors";
 import ValidationTextInput from "./ValidationTextInput";
 import consts from "../const";
@@ -34,8 +34,9 @@ export default class Login extends Component {
                         color={colors.accentColor}/>
 
                     <Button
-                        style={loginStyles.buttonStyle}>
-                        <Text style={loginStyles.buttonTextStyle}>Sign In</Text>
+                        style={loginStyles.buttonStyle}
+                        onPress={()=>this.onLoginPress()}>
+                        <Text style={loginStyles.buttonTextStyle}>{strings.sign_in}</Text>
                     </Button>
                 </Content>
             </Container>);
@@ -47,6 +48,10 @@ export default class Login extends Component {
 
     validatePassword(text) {
         return text >= consts.MIN_PASSWORD_LENGTH;
+
+    }
+
+    onLoginPress(){
 
     }
 }
