@@ -8,11 +8,11 @@ import Navigation from "./components/Navigation.js";
 const store = configureStore();
 
 export default class App extends Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <Navigation/>
-      </Provider>
-    );
-  }
+    render() {
+        return (
+            <Provider store={store}>
+                <Navigation/>
+            </Provider>
+        );
+    }
 }

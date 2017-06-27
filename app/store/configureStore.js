@@ -10,7 +10,7 @@ import loginReducer from "../reducers/loginReducer";
 const combinedReducers = combineReducers({login: loginReducer});
 
 export default function configureStore() {
-  store = createStore(combinedReducers, compose(applyMiddleware(sagaMiddleware), autoRehydrate()));
-  persistStore(store, {storage: AsyncStorage, blacklist: []});
-  return store;
+    store = createStore(combinedReducers, compose(applyMiddleware(sagaMiddleware), autoRehydrate()));
+    persistStore(store, {storage: AsyncStorage, blacklist: []});
+    return store;
 }

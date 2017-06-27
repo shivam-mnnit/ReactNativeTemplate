@@ -14,22 +14,22 @@ const Navigator = StackNavigator(Routes, {});
 
 export class Navigation extends Component {
 
-  render() {
-    return (
-      <Provider store={store}>
-        <Navigator/>
-      </Provider>
-    );
-  }
+    render() {
+        return (
+            <Provider store={store}>
+                <Navigator/>
+            </Provider>
+        );
+    }
 
 }
 
 function mapStateToProps(state) {
-  return {}
+    return {}
 }
 function mapDispatchToProps(dispatch) {
-  return {}
+    return {}
 }
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps)(Navigation);
+    mapStateToProps,
+    mapDispatchToProps)(Navigation);
