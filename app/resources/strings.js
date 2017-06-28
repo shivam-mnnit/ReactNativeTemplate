@@ -4,6 +4,6 @@
 import LocalizedStrings from "react-localization";
 
 export default new LocalizedStrings({
-  en: {},
-  ru: {}
+    en: {},
+    ru: {}
 });
