@@ -13,9 +13,9 @@ import RepositoriesList from "./RepositoriesList";
 
 const store = configureStore();
 const Routes = {
-   // Login: {screen: Login},
+    Login: {screen: Login},
     RepositoriesList: {screen: RepositoriesList},
-    Login: {screen: Login}
+   // Detail: {screen: Detail}
 };
 const Navigator = StackNavigator(Routes, {});
 
