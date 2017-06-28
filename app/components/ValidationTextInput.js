@@ -48,7 +48,7 @@ export default class ValidationTextInput extends Component {
 
   setError(event) {
     if (!this.props.validate(event.nativeEvent.text)) {
-      if (!event.nativeEvent.text || event.nativeEvent.text === "") {
+      if (this.isTextEmpty(event)) {
         this.setState({error: strings.empty_error});
       } else {
         this.setState({error: this.props.error});
@@ -56,6 +56,10 @@ export default class ValidationTextInput extends Component {
     } else {
       this.setState({error: ""});
     }
+  }
+
+  isTextEmpty(event) {
+    return !event.nativeEvent.text || event.nativeEvent.text === "";
   }
 }
 
