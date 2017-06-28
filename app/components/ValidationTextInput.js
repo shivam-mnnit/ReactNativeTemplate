@@ -37,12 +37,13 @@ export default class ValidationTextInput extends Component {
   }
 
   handleTextChange(text) {
-    this.setState({error: ""});
     if (this.props.onChangeText) {
       this.props.onChangeText(text);
     }
     if (this.props.validateWhileEdit) {
       this.setError();
+    } else {
+      this.setState({error: ""});
     }
   }
 
@@ -51,7 +52,7 @@ export default class ValidationTextInput extends Component {
       if (this.isTextEmpty(event)) {
         this.setState({error: strings.empty_error});
       } else {
-        this.setState({error: this.props.error});
+        this.setState({error: this.props.errorMessage});
       }
     } else {
       this.setState({error: ""});
@@ -59,7 +60,7 @@ export default class ValidationTextInput extends Component {
   }
 
   isTextEmpty(event) {
-    return !event.nativeEvent.text || event.nativeEvent.text === "";
+    return !event.nativeEvent.text;
   }
 }
 

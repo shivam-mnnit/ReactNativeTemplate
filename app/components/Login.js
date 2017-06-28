@@ -2,14 +2,13 @@
  * Created by saionara1 on 6/21/17.
  */
 import React, {Component} from "react";
-import {ActivityIndicator, Image, StatusBar, Text} from "react-native";
+import {Image, StatusBar, Text} from "react-native";
 import {Button, Container, Content} from "native-base";
 import colors from "../resources/colors";
 import ValidationTextInput from "./ValidationTextInput";
 import consts from "../const";
 import dimens from "../resources/dimens";
 import strings from "../resources/strings";
-import * as actions from "../actions/action-types";
 
 export default class Login extends Component {
   static navigationOptions = {
