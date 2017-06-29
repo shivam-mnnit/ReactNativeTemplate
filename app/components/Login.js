@@ -42,8 +42,7 @@ export default class Login extends Component {
             color={colors.accentColor}/>
 
           <Button
-            style={loginStyles.buttonStyle}
-            onPress={() => this.onLoginPress()}>
+            style={loginStyles.buttonStyle}>
             <Text style={loginStyles.buttonTextStyle}>{strings.sign_in}</Text>
           </Button>
         </Content>
