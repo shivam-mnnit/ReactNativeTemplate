@@ -7,18 +7,18 @@ import * as Api from "../api";
 
 function* authorize(username, password) {
   try {
-    const user = yield call(Api.authorize, username, password);
-    if (!user.message) {
-      yield put({type: actions.LOGIN_SUCCESS, user});
-      return user;
+    const token = yield call(Api.getAccessToken, username, password);
+    if (!token.message) {
+      yield put({type: actions.LOGIN_SUCCESS, token});
+      return token;
     } else {
-      console.log(user);
-      yield put({type: actions.LOGIN_ERROR, error: user});
+      console.log(token);
+      yield put({type: actions.LOGIN_ERROR, error: token});
       return undefined;
     }
   } catch (error) {
     console.log(error);
-    yield put({type: actions.LOGOUT_ERROR, error});
+    yield put({type: actions.LOGIN_ERROR, error});
   }
 }
 
@@ -26,8 +26,9 @@ export function* loginFlow() {
   while (true) {
     const {username, password} = yield take(actions.LOGIN_ACTION);
     yield put({type: actions.PROGRESS, progress: true});
-    const user = yield  call(authorize, username, password);
-    if (user) {
+    const token = yield  call(authorize, username, password);
+    yield put({type: actions.PROGRESS, progress: false});
+    if (token) {
       yield take(actions.LOGOUT_ACTION);
     }
   }

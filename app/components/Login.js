@@ -65,8 +65,12 @@ export class Login extends Component {
       </Container>);
   }
 
+  componentWillUnmount() {
+    this.props.dispatch({type: actions.PROGRESS, progress: false})
+  }
+
   renderProgress() {
-    if (this.props.login.progress) {
+    if (this.props.root.progress) {
       return ( <ActivityIndicator
         color={colors.accentColor}
         animating={true}
@@ -134,7 +138,10 @@ const loginStyles = {
 
 function mapStateToProps(state) {
   console.log(state);
-  return {login: state.login}
+  return {
+    login: state.login,
+    root: state.root
+  }
 }
 
 export default connect(mapStateToProps)(Login)

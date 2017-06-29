@@ -3,24 +3,23 @@
  */
 import Base64 from "./utils/Base64";
 
-export function authorize(username, password) {
+export function getAccessToken(username, password) {
   baseString = Base64.btoa(username + ':' + password).replace('\n', '\\n');
-
-  return fetch('https://api.github.com/user', {
-    method: 'POST',
+  return fetch('https://api.github.com/authorizations/clients/ffb12e79140e7b6597ba', {
+    method: 'PUT',
     headers: {
       'Accept': 'application/vnd.github.v3.full+json',
       'Content-Type': 'application/json',
       "Authorization": "Basic " + baseString
-
     },
     body: JSON.stringify({
-      note: 'test'
+      client_secret: "d07dadbce095325cebfc40a46eb467e906063927",
     })
   }).then((user) => {
     return user.json()
   })
     .then((responseJson) => {
+      console.log(responseJson);
       return responseJson;
     })
     .catch((error) => {
