@@ -5,7 +5,7 @@ import * as actions from "../actions/action-types";
 
 const initialState = {
   isLoggedIn: false,
-  user: {},
+  token: {},
   loginError: {},
   progress: false
 };
@@ -26,12 +26,11 @@ export default function loginReducer(state = initialState, action = {}) {
         loginError: action.error
       };
     case actions.LOGIN_SUCCESS: {
-      console.log("Login Sucess");
       return {
         ...state,
         progress: false,
         isLoggedIn: true,
-        user: action.user
+        token: action.token.token
       };
     }
     default:

@@ -34,7 +34,7 @@ const itemStyles = {
     borderRadius: 4,
     borderWidth: 1,
     flex: 1,
-    height: 100,
+    height:120,
     backgroundColor: 'white'
   },
   itemTitleStyle: {

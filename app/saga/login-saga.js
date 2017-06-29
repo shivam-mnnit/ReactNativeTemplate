@@ -7,13 +7,13 @@ import * as Api from "../api";
 
 function* authorize(username, password) {
   try {
-    const user = yield call(Api.authorize, username, password);
-    if (!user.message) {
-      yield put({type: actions.LOGIN_SUCCESS, user});
-      return user;
+    const token = yield call(Api.getAccessToken, username, password);
+    console.log(token);
+    if (!token.message) {
+      yield put({type: actions.LOGIN_SUCCESS,token:token});
+      return token;
     } else {
-      console.log(user);
-      yield put({type: actions.LOGIN_ERROR, error: user});
+      yield put({type: actions.LOGIN_ERROR, error:token});
       return undefined;
     }
   } catch (error) {

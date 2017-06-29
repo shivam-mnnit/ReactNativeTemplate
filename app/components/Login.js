@@ -22,6 +22,7 @@ export class Login extends Component {
     super();
     this.password = "";
     this.email = "";
+    this.isGoneAlready = false;
   }
 
   componentDidMount() {
@@ -29,9 +30,16 @@ export class Login extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.login.loginError.message) {
+    const {navigation, login} = this.props;
+    const {loginError, isLoggedIn} = login;
+
+    if (loginError && loginError.message) {
       Toast.showShortBottom(this.props.login.loginError.message);
       this.props.dispatch({type: actions.LOGIN_ERROR, error: {}})
+    }
+    if (isLoggedIn && !this.isGoneAlready) {
+      navigation.navigate("RepositoriesList");
+      this.isGoneAlready = true;
     }
   }
 
@@ -56,6 +64,7 @@ export class Login extends Component {
             color={colors.accentColor}/>
 
           <Button
+            onPress={() => this.onLoginPress()}
             style={loginStyles.buttonStyle}>
             <Text style={loginStyles.buttonTextStyle}>{strings.sign_in}</Text>
           </Button>
