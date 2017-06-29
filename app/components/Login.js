@@ -2,8 +2,8 @@
  * Created by saionara1 on 6/21/17.
  */
 import React, {Component} from "react";
-import {ActivityIndicator, Image, StatusBar, Text} from "react-native";
-import {Button, Container, Content} from "native-base";
+import {Image, StatusBar, Text} from "react-native";
+import {Button, Container, Content, Spinner} from "native-base";
 import colors from "../resources/colors";
 import ValidationTextInput from "./ValidationTextInput";
 import {connect} from "react-redux";
@@ -11,7 +11,7 @@ import consts from "../const";
 import dimens from "../resources/dimens";
 import strings from "../resources/strings";
 import * as actions from "../actions/action-types";
-var Toast = require('react-native-toast');
+import Toast from "react-native-toast";
 
 export class Login extends Component {
   static navigationOptions = {
@@ -22,10 +22,6 @@ export class Login extends Component {
     super();
     this.password = "";
     this.email = "";
-  }
-
-  componentDidMount() {
-    this.props.dispatch({type: actions.PROGRESS, progress: false})
   }
 
   componentDidUpdate() {
@@ -65,13 +61,9 @@ export class Login extends Component {
       </Container>);
   }
 
-  componentWillUnmount() {
-    this.props.dispatch({type: actions.PROGRESS, progress: false})
-  }
-
   renderProgress() {
     if (this.props.root.progress) {
-      return ( <ActivityIndicator
+      return ( <Spinner
         color={colors.accentColor}
         animating={true}
         size={46}
