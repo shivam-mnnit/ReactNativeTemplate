@@ -17,7 +17,9 @@ const Routes = {
     RepositoriesList: {screen: RepositoriesList},
    // Detail: {screen: Detail}
 };
-const Navigator = StackNavigator(Routes, {});
+const Navigator = StackNavigator(Routes, {
+    initialRouteName: 'RepositoriesList'
+});
 
 export class Navigation extends Component {
 
