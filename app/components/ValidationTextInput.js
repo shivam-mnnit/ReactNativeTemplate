@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Content, Input, Item, Label, Text} from "native-base";
 import strings from "../resources/strings";
+import PropTypes from 'prop-types';
 
 export default class ValidationTextInput extends Component {
 
@@ -71,4 +72,10 @@ const validationTextStyles = {
     color: 'white'
   }
 };
+
+ValidationTextInput.propTypes = {
+  // You can declare that a prop is a specific JS primitive. By default, these
+  // are all optional.
+  defaultValue: PropTypes.string
+}
 
