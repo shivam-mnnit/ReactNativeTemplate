@@ -6,27 +6,27 @@
    - node_modules
    - index.android.js
    - index.ios.js
-   …
+   - …
    - app
     - actions
      - login-actions.js
      - sign-up-actions.js
-     …
+     - …
     - components
-     - login.js
-     - sign-up.js
-     …
+     - Login.js
+     - SignUp.js
+     - …
     - reducers
-     - login-reducer.js
-     - sign-up-reducer.js
-     …
+     - loginReducer.js
+     - signUpReducer.js
+     - …
     - resources
      - strings.js
      - colors.js
      - dimens.js
      - styles.js
     - store
-     - configure-store.js
+     - configureStore.js
     - api.js
     - app.js
     - const.js
