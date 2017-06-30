@@ -27,8 +27,8 @@ export default class ValidationTextInput extends Component {
             style={validationTextStyles.inputStyle}
             secureTextEntry={this.props.secureTextEntry}
             onChangeText={(text) => this.handleTextChange(text)}
-            value={this.props.value !== null ? this.props.value : ''}
-            keyboardType={this.props.type !== null ? this.props.type : 'default'}
+            value={ this.props.value || ''}
+            keyboardType={this.props.type || 'default'}
             onEndEditing={(event) => this.setError(event)}/>
         </Item>
         <Text style={validationTextStyles.errorTextStyle}>{this.state.error } </Text>
@@ -37,30 +37,25 @@ export default class ValidationTextInput extends Component {
   }
 
   handleTextChange(text) {
+    this.setState({error: ""});
     if (this.props.onChangeText) {
       this.props.onChangeText(text);
     }
     if (this.props.validateWhileEdit) {
       this.setError();
-    } else {
-      this.setState({error: ""});
     }
   }
 
   setError(event) {
     if (!this.props.validate(event.nativeEvent.text)) {
-      if (this.isTextEmpty(event)) {
+      if (!event.nativeEvent.text || event.nativeEvent.text === "") {
         this.setState({error: strings.empty_error});
       } else {
-        this.setState({error: this.props.errorMessage});
+        this.setState({error: this.props.error});
       }
     } else {
       this.setState({error: ""});
     }
-  }
-
-  isTextEmpty(event) {
-    return !event.nativeEvent.text;
   }
 }
 

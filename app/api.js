@@ -2,6 +2,7 @@
  * Created by saionara1 on 6/21/17.
  */
 import Base64 from "./utils/Base64";
+import consts from "./const";
 
 // work with api goes here
 
@@ -23,23 +24,22 @@ export function getRepositories(token, page, limit) {
     });
 }
 
+
 export function getAccessToken(username, password) {
   baseString = Base64.btoa(username + ':' + password).replace('\n', '\\n');
-  return fetch('https://api.github.com/authorizations/clients/ffb12e79140e7b6597ba', {
+  return fetch('https://api.github.com/authorizations/clients/' + consts.CLIENT_ID, {
     method: 'PUT',
     headers: {
-      'Accept': 'application/vnd.github.v3.full+json',
-      'Content-Type': 'application/json',
+      ...consts.BASE_HEADER,
       "Authorization": "Basic " + baseString
     },
     body: JSON.stringify({
-      client_secret: "d07dadbce095325cebfc40a46eb467e906063927",
+      client_secret: consts.CLIENT_SECRET,
     })
   }).then((user) => {
     return user.json()
   })
     .then((responseJson) => {
-      console.log(responseJson);
       return responseJson;
     })
     .catch((error) => {

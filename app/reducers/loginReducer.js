@@ -5,17 +5,11 @@ import * as actions from "../actions/action-types";
 
 const initialState = {
   isLoggedIn: false,
-  token: {},
-  loginError: {},
-  progress: false
+  token: '',
+  loginError: {}
 };
 export default function loginReducer(state = initialState, action = {}) {
   switch (action.type) {
-    case actions.PROGRESS:
-      return {
-        ...state,
-        progress: action.progress
-      };
     case actions.LOGIN_ERROR:
       console.log('Catch error');
       console.log(action);

@@ -2,8 +2,8 @@
  * Created by saionara1 on 6/21/17.
  */
 import React, {Component} from "react";
-import {ActivityIndicator, Image, StatusBar, Text} from "react-native";
-import {Button, Container, Content} from "native-base";
+import {Image, StatusBar, Text} from "react-native";
+import {Button, Container, Content, Spinner} from "native-base";
 import colors from "../resources/colors";
 import ValidationTextInput from "./ValidationTextInput";
 import {connect} from "react-redux";
@@ -11,7 +11,7 @@ import consts from "../const";
 import dimens from "../resources/dimens";
 import strings from "../resources/strings";
 import * as actions from "../actions/action-types";
-var Toast = require('react-native-toast');
+import Toast from "react-native-toast";
 
 export class Login extends Component {
   static navigationOptions = {
@@ -64,8 +64,8 @@ export class Login extends Component {
             color={colors.accentColor}/>
 
           <Button
-            onPress={() => this.onLoginPress()}
-            style={loginStyles.buttonStyle}>
+            style={loginStyles.buttonStyle}
+            onPress={() => this.onLoginPress()}>
             <Text style={loginStyles.buttonTextStyle}>{strings.sign_in}</Text>
           </Button>
           {this.renderProgress()}
@@ -74,11 +74,11 @@ export class Login extends Component {
   }
 
   renderProgress() {
-    if (this.props.login.progress) {
-      return ( <ActivityIndicator
+    if (this.props.root.progress) {
+      return ( <Spinner
         color={colors.accentColor}
         animating={true}
-        size={46}
+        size={'large'}
         style={loginStyles.progressStyle}/>)
     } else {
       return null;
@@ -142,7 +142,10 @@ const loginStyles = {
 
 function mapStateToProps(state) {
   console.log(state);
-  return {login: state.login}
+  return {
+    login: state.login,
+    root: state.root
+  }
 }
 
 export default connect(mapStateToProps)(Login)
