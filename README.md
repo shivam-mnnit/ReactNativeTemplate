@@ -78,6 +78,8 @@
 16. Versioning: packadge.json - замораживаем версии библиотек на время жизни проекта.
 
 17. Use formatting tabulation of 2. Needs to be changed in WebStorm settings
-
 ![](https://lh6.googleusercontent.com/05rcRv9E2RN1emBzVDOQEdrj_YSe1Jj90ILoCgOyUms73JPcO9qWcTy0CGg-d_o-AHMbYB2w_pId_9_b5E7UV3kTcuUtFMA6gHTBDRZ2_YUug26aFSVx-9nnU70-QU6XMm1TAjJN)
+
+18. Add all component props to propTypes. It adds safety, shows you what props available, and allows IDEA/WebStorm to autocomplete them. https://facebook.github.io/react/docs/typechecking-with-proptypes.html
+
 
