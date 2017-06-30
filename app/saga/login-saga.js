@@ -12,7 +12,6 @@ function* authorize(username, password) {
       yield put({type: actions.LOGIN_SUCCESS, token});
       return token;
     } else {
-      console.log(token);
       yield put({type: actions.LOGIN_ERROR, error: token});
       return undefined;
     }
