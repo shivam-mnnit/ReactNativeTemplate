@@ -27,7 +27,7 @@ export default class ValidationTextInput extends Component {
             style={validationTextStyles.inputStyle}
             secureTextEntry={this.props.secureTextEntry}
             onChangeText={(text) => this.handleTextChange(text)}
-            value={ this.props.value || ''}
+            value={this.props.value}
             keyboardType={this.props.type || 'default'}
             onEndEditing={(event) => this.setError(event)}/>
         </Item>

@@ -3,15 +3,20 @@
  */
 import React, {Component} from "react";
 import {BackHandler, FlatList, View} from "react-native";
+import {Container, StyleProvider, Tabs,Spinner} from "native-base";
 import RepositoryListItem from "./RepositoryListItem";
 import colors from "../resources/colors";
 import * as actions from "../actions/action-types";
+import material from "../native_theme/variables/material";
 import {connect} from "react-redux";
+import strings from "../resources/strings";
+import getTheme from "../native_theme/components";
+import styles from "../resources/styles";
 
 export class RepositoriesList extends Component {
 
   static navigationOptions = {
-    title: 'Title',
+    title: strings.list_title,
     headerLeft: null,
     headerTintColor: 'white',
     headerTitleStyle: {
@@ -43,23 +48,77 @@ export class RepositoriesList extends Component {
 
   render() {
     return (
-      <View style={repositoriesListStyles.screenStyle}>
-        <FlatList
-          style={repositoriesListStyles.flatListStyle}
-          data={this.props.list.data}
-          keyExtractor={this._keyExtractor}
-          renderItem={this._renderItem}
-          onEndReached={() => {
-            this.props.dispatch({
-              type: actions.ACTION_REPOSITORIES_LIST,
-              username: this.props.login.token,
-              page: 2,
-              limit: 10
-            });
-          }}
-          ItemSeparatorComponent={() => <View style={repositoriesListStyles.itemSeparatorStyle}/>}
-        />
-      </View>)
+      <StyleProvider style={getTheme(material)}>
+        <Container
+          shouldRasterizeIOS
+          renderToHardwareTextureAndroid
+          style={repositoriesListStyles.screenStyle}>
+          <Tabs >
+            <FlatList
+              style={repositoriesListStyles.flatListStyle}
+              data={this.props.list.data}
+              heading={'Tab1'}
+              keyExtractor={this._keyExtractor}
+              renderItem={this._renderItem}
+              onEndReached={() => {
+                this.props.dispatch({
+                  type: actions.ACTION_REPOSITORIES_LIST,
+                  username: this.props.login.token,
+                  page: 2,
+                  limit: 10
+                });
+              }}
+              ItemSeparatorComponent={() => <View style={repositoriesListStyles.itemSeparatorStyle}/>}
+            />
+
+            <FlatList
+              style={repositoriesListStyles.flatListStyle}
+              data={this.props.list.data}
+              heading={'Tab2'}
+              keyExtractor={this._keyExtractor}
+              renderItem={this._renderItem}
+              onEndReached={() => {
+                this.props.dispatch({
+                  type: actions.ACTION_REPOSITORIES_LIST,
+                  username: this.props.login.token,
+                  page: 2,
+                  limit: 10
+                });
+              }}
+              ItemSeparatorComponent={() => <View style={repositoriesListStyles.itemSeparatorStyle}/>}
+            />
+            <FlatList
+              style={repositoriesListStyles.flatListStyle}
+              data={this.props.list.data}
+              heading={'Tab3'}
+              keyExtractor={this._keyExtractor}
+              renderItem={this._renderItem}
+              onEndReached={() => {
+                this.props.dispatch({
+                  type: actions.ACTION_REPOSITORIES_LIST,
+                  username: this.props.login.token,
+                  page: 2,
+                  limit: 10
+                });
+              }}
+              ItemSeparatorComponent={() => <View style={repositoriesListStyles.itemSeparatorStyle}/>}
+            />
+          </Tabs>
+          {this.renderProgress()}
+        </Container>
+      </StyleProvider>)
+  }
+
+  renderProgress() {
+    if (this.props.root.progress) {
+      return ( <Spinner
+        color={colors.accentColor}
+        animating={true}
+        size={'large'}
+        style={styles.progressStyle}/>)
+    } else {
+      return null;
+    }
   }
 
 }
@@ -67,6 +126,8 @@ export class RepositoriesList extends Component {
 const repositoriesListStyles = {
   flatListStyle: {},
   screenStyle: {
+    flexDirection: 'row',
+    justifyContent:'center',
     backgroundColor: colors.primaryColor
   },
   itemSeparatorStyle: {
@@ -80,7 +141,8 @@ function mapStateToProps(state) {
   console.log(state);
   return {
     login: state.login,
-    list: state.list
+    list: state.list,
+    root: state.root
   }
 }
 export default connect(mapStateToProps)(RepositoriesList)

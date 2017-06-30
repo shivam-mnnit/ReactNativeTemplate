@@ -11,6 +11,7 @@ import consts from "../const";
 import dimens from "../resources/dimens";
 import strings from "../resources/strings";
 import * as actions from "../actions/action-types";
+import styles from "../resources/styles";
 import Toast from "react-native-toast";
 
 export class Login extends Component {
@@ -79,7 +80,7 @@ export class Login extends Component {
         color={colors.accentColor}
         animating={true}
         size={'large'}
-        style={loginStyles.progressStyle}/>)
+        style={styles.progressStyle}/>)
     } else {
       return null;
     }
@@ -134,10 +135,7 @@ const loginStyles = {
     width: 150,
     height: 150,
   },
-  progressStyle: {
-    alignSelf: 'center',
-    position: 'absolute',
-  }
+
 };
 
 function mapStateToProps(state) {
