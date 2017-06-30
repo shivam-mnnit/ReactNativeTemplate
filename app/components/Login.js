@@ -66,7 +66,7 @@ export class Login extends Component {
       return ( <Spinner
         color={colors.accentColor}
         animating={true}
-        size={46}
+        size={'large'}
         style={loginStyles.progressStyle}/>)
     } else {
       return null;
