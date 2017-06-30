@@ -1,7 +1,6 @@
 1. Architecture: Redux + saga https://github.com/redux-saga/redux-saga
 
 2. Project structure:
-
    - android
    - ios
    - node_modules
@@ -58,41 +57,23 @@
 
 15. Antipatterns:
   - Do not use setState() in componentWillMount()
-
   - Do not perform any logic in render() function
-
   - Do not use indexes of an array as its keys
-
   - Do not validate forms with redux store
-
   - Do not perform any logic in reducers
-
   - Do not perform too much dispatches
-
   - Do not rely on JS single thread
-
   - Do not use x-index a lot
-
   - Do not use ListView, use FlatList instead
-
   - Remove console.log() calls
-
   - Do not use object literals in render()
-
   - Reduce render() function calls
-
   - Use InteractionManager.runAfterInteractions() to perform any hard stuff
-
   - Use requestAnimationFrame to perform animations
-
   - Extend React.PureComponent as much as possible
-
   - Use shouldRasterizeIOS
-
   - Use renderToHardwareTextureAndroid
-
   - Do not perform any logic in componentWillMount()
-
   - Use useNativeDriver
 16. Versioning: packadge.json - замораживаем версии библиотек на время жизни проекта.
 
