@@ -8,7 +8,8 @@ export default class ValidationTextInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: ""
+      error: "",
+      showDefaultValue: true,
     };
   }
 
@@ -29,7 +30,7 @@ export default class ValidationTextInput extends Component {
             secureTextEntry={this.props.secureTextEntry}
             onChangeText={(text) => this.handleTextChange(text)}
             onEndEditing={(event) => this.setError(event)}
-            value={this.state.value || this.props.defaultValue}
+            {...this.state.showDefaultValue ? {value: this.props.defaultValue} : {}}
           />
         </Item>
         <Text style={validationTextStyles.errorTextStyle}>{this.state.error } </Text>
@@ -38,7 +39,7 @@ export default class ValidationTextInput extends Component {
   }
 
   handleTextChange(text) {
-    this.setState({value: text, error: ""});
+    this.setState({error: "", showDefaultValue: false});
     if (this.props.onChangeText) {
       this.props.onChangeText(text);
     }
