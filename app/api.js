@@ -7,7 +7,8 @@ import consts from "./const";
 // work with api goes here
 
 export function getRepositories(token, page, limit) {
-  return fetch('https://api.github.com/user/repos?access_token=' + token + '&page=' + page, {
+  console.log(page);
+  return fetch('https://api.github.com/user/repos?access_token=' + token + '&page=' + page + '&per_page=' + limit, {
     method: 'GET',
     headers: {
       'Accept': 'application/vnd.github.v3.full+json',
@@ -17,6 +18,7 @@ export function getRepositories(token, page, limit) {
     return list.json()
   })
     .then((responseJson) => {
+      console.log(responseJson);
       return responseJson;
     })
     .catch((error) => {

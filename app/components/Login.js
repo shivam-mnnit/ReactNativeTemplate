@@ -139,7 +139,6 @@ const loginStyles = {
 };
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
     login: state.login,
     root: state.root

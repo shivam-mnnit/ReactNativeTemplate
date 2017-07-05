@@ -3,7 +3,7 @@
  */
 import React, {Component} from "react";
 import {BackHandler, FlatList, View} from "react-native";
-import {Container, StyleProvider, Tabs,Spinner} from "native-base";
+import {Container, Spinner, StyleProvider, Tabs} from "native-base";
 import RepositoryListItem from "./RepositoryListItem";
 import colors from "../resources/colors";
 import * as actions from "../actions/action-types";
@@ -24,9 +24,15 @@ export class RepositoriesList extends Component {
     },
     headerStyle: {
       backgroundColor: colors.primaryColor
-
     }
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      page: 1,
+    }
+  }
 
   _keyExtractor = (item, index) => item.id;
 
@@ -40,6 +46,7 @@ export class RepositoriesList extends Component {
   );
 
   componentDidMount() {
+    console.log("gweqe");
     BackHandler.addEventListener('hardwareBackPress', () => {
       BackHandler.exitApp();
     });
@@ -58,16 +65,10 @@ export class RepositoriesList extends Component {
               style={repositoriesListStyles.flatListStyle}
               data={this.props.list.data}
               heading={'Tab1'}
+              onEndReachedThreshold={0.01}
               keyExtractor={this._keyExtractor}
               renderItem={this._renderItem}
-              onEndReached={() => {
-                this.props.dispatch({
-                  type: actions.ACTION_REPOSITORIES_LIST,
-                  username: this.props.login.token,
-                  page: 2,
-                  limit: 10
-                });
-              }}
+              onEndReached={() => this.dispatchGetRepos() }
               ItemSeparatorComponent={() => <View style={repositoriesListStyles.itemSeparatorStyle}/>}
             />
 
@@ -75,16 +76,10 @@ export class RepositoriesList extends Component {
               style={repositoriesListStyles.flatListStyle}
               data={this.props.list.data}
               heading={'Tab2'}
+              onEndReachedThreshold={0.01}
               keyExtractor={this._keyExtractor}
               renderItem={this._renderItem}
-              onEndReached={() => {
-                this.props.dispatch({
-                  type: actions.ACTION_REPOSITORIES_LIST,
-                  username: this.props.login.token,
-                  page: 2,
-                  limit: 10
-                });
-              }}
+              onEndReached={() => this.dispatchGetRepos()}
               ItemSeparatorComponent={() => <View style={repositoriesListStyles.itemSeparatorStyle}/>}
             />
             <FlatList
@@ -93,14 +88,8 @@ export class RepositoriesList extends Component {
               heading={'Tab3'}
               keyExtractor={this._keyExtractor}
               renderItem={this._renderItem}
-              onEndReached={() => {
-                this.props.dispatch({
-                  type: actions.ACTION_REPOSITORIES_LIST,
-                  username: this.props.login.token,
-                  page: 2,
-                  limit: 10
-                });
-              }}
+              onEndReachedThreshold={0.01}
+              onEndReached={() => this.dispatchGetRepos()}
               ItemSeparatorComponent={() => <View style={repositoriesListStyles.itemSeparatorStyle}/>}
             />
           </Tabs>
@@ -121,13 +110,22 @@ export class RepositoriesList extends Component {
     }
   }
 
+  dispatchGetRepos() {
+    this.props.dispatch({
+      type: actions.ACTION_REPOSITORIES_LIST,
+      username: this.props.login.token,
+      page: (Math.round(this.props.list.data.length / 10) + 1),
+      limit: 10,
+    })
+  }
+
 }
 
 const repositoriesListStyles = {
   flatListStyle: {},
   screenStyle: {
     flexDirection: 'row',
-    justifyContent:'center',
+    justifyContent: 'center',
     backgroundColor: colors.primaryColor
   },
   itemSeparatorStyle: {
@@ -138,7 +136,6 @@ const repositoriesListStyles = {
 };
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
     login: state.login,
     list: state.list,

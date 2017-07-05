@@ -37,6 +37,7 @@
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		BA3E9DC41F063ED800A2E85E /* libRCTToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA3E9DB21F063E5F00A2E85E /* libRCTToast.a */; };
+		BABE30991F0A374300B8EA10 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BABE30981F0A374300B8EA10 /* Roboto.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -278,6 +279,7 @@
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		BA3E9D9F1F063E5F00A2E85E /* RCTToast.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTToast.xcodeproj; path = "../node_modules/react-native-toast/ios/RCTToast.xcodeproj"; sourceTree = "<group>"; };
+		BABE30981F0A374300B8EA10 /* Roboto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Roboto.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -490,6 +492,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				BABE30981F0A374300B8EA10 /* Roboto.ttf */,
 				13B07FAE1A68108700A75B9A /* ReactTemplate */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* ReactTemplateTests */,
@@ -907,6 +910,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BABE30991F0A374300B8EA10 /* Roboto.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
