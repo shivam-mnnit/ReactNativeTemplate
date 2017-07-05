@@ -78,7 +78,7 @@ export class Login extends Component {
   }
 
   validatePassword(text) {
-    return text >= consts.MIN_PASSWORD_LENGTH;
+    return text.length >= consts.MIN_PASSWORD_LENGTH;
 
   }
 
