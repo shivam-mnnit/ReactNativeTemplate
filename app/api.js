@@ -10,10 +10,7 @@ export function getRepositories(token, page, limit) {
   console.log(page);
   return fetch('https://api.github.com/user/repos?access_token=' + token + '&page=' + page + '&per_page=' + limit, {
     method: 'GET',
-    headers: {
-      'Accept': 'application/vnd.github.v3.full+json',
-      'Content-Type': 'application/json',
-    }
+    headers: consts.BASE_HEADER
   }).then((list) => {
     return list.json()
   })

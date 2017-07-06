@@ -57,7 +57,6 @@ export class RepositoriesList extends Component {
   }
 
   componentDidMount() {
-    console.log("gweqe");
     BackHandler.addEventListener('hardwareBackPress', () => {
       BackHandler.exitApp();
     });

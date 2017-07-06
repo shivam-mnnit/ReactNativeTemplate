@@ -3,7 +3,6 @@
  */
 import React, {Component} from "react";
 import {connect, Provider} from "react-redux";
-//import {BackAndroid} from "react-native";
 import configureStore from "../store/configureStore.js";
 import {StackNavigator} from "react-navigation";
 import Login from "./Login";
@@ -13,7 +12,6 @@ const store = configureStore();
 const Routes = {
   Login: {screen: Login},
   RepositoriesList: {screen: RepositoriesList},
-  // Detail: {screen: Detail}
 };
 const Navigator = StackNavigator(Routes, {
   headerMode: 'screen'

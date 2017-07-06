@@ -24,7 +24,6 @@ function* getList(username, page, limit) {
 export function* listFlow() {
   while (true) {
     const {username, page, limit} = yield take(actions.ACTION_REPOSITORIES_LIST);
-    console.log('Get action');
     yield put({type: actions.PROGRESS, progress: true});
     const list = yield  call(getList, username, page, limit);
     yield put({type: actions.PROGRESS, progress: false});
