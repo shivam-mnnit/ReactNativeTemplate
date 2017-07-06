@@ -39,6 +39,7 @@ export class RepositoriesList extends Component {
   _renderItem = ({item}) => (
     <RepositoryListItem
       id={item.id}
+      repository={item}
       title={item.full_name}
       description={item.description}
       navigation={this.props.navigation}
@@ -46,10 +47,6 @@ export class RepositoriesList extends Component {
   );
 
   componentDidMount() {
-    console.log("gweqe");
-    BackHandler.addEventListener('hardwareBackPress', () => {
-      BackHandler.exitApp();
-    });
     this.props.dispatch({type: actions.ACTION_REPOSITORIES_LIST, username: this.props.login.token, page: 1, limit: 10});
   }
 

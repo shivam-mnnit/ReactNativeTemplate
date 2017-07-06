@@ -10,7 +10,7 @@ export default class RepositoryListItem extends React.PureComponent {
 
   _onPress = () => {
     const {navigate} = this.props.navigation;
-    // navigate('Detail')
+    navigate('RepositoryDetails', {repository: this.props.repository})
   };
 
   render() {
@@ -34,7 +34,7 @@ const itemStyles = {
     borderRadius: 4,
     borderWidth: 1,
     flex: 1,
-    height:120,
+    height: 120,
     backgroundColor: 'white'
   },
   itemTitleStyle: {

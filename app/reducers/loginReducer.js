@@ -11,8 +11,6 @@ const initialState = {
 export default function loginReducer(state = initialState, action = {}) {
   switch (action.type) {
     case actions.LOGIN_ERROR:
-      console.log('Catch error');
-      console.log(action);
       return {
         ...state,
         isLoggedIn: false,
@@ -24,7 +22,8 @@ export default function loginReducer(state = initialState, action = {}) {
         ...state,
         progress: false,
         isLoggedIn: true,
-        token: action.token.token
+        token: action.token.token,
+        user: action.token
       };
     }
     default:

@@ -1,6 +1,7 @@
 package com.reacttemplate;
 
 import android.app.Application;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Handler;
 import android.os.StrictMode;
@@ -15,14 +16,23 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends Application implements ReactApplication,MainApplication.Listener {
 
+
+    @Override
+    public void onPOsitionChanged() {
+    }
+
+    interface  Listener{
+        void onPOsitionChanged(int currentPosition);
+    }
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
         @Override
         public boolean getUseDeveloperSupport() {
             return BuildConfig.DEBUG;
         }
 
+        li
         @Override
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
@@ -41,13 +51,26 @@ public class MainApplication extends Application implements ReactApplication {
     public void onCreate() {
         // There is a bug in React Native preventing remote debugging on Android
         // https://github.com/facebook/react-native/issues/12289
-        //
+        final MediaPlayer mediaPlayer = new MediaPlayer();
         // This is a hack to get around it. Make sure you remove it before releasing
         // as you should never run network calls on the main thread
         if (BuildConfig.DEBUG) {
             strictModePermitAll();
         }
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(500);
+                    mediaPlayer.getCurrentPosition();
+                   sendBroadcast();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
         super.onCreate();
         SoLoader.init(this, /* native exopackage */ false);
     }
