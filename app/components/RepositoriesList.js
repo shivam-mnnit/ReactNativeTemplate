@@ -12,6 +12,7 @@ import {connect} from "react-redux";
 import strings from "../resources/strings";
 import getTheme from "../native_theme/components";
 import styles from "../resources/styles";
+import consts from "../const";
 
 export class RepositoriesList extends Component {
 
@@ -45,12 +46,27 @@ export class RepositoriesList extends Component {
     />
   );
 
+  componentDidUpdate() {
+    const {list} = this.props;
+    const {listError} = list;
+
+    if (listError && listError.message) {
+      Toast.showShortBottom(this.props.login.loginError.message);
+      this.props.dispatch({type: actions.ACTION_LIST_ERROR, error: {}})
+    }
+  }
+
   componentDidMount() {
     console.log("gweqe");
     BackHandler.addEventListener('hardwareBackPress', () => {
       BackHandler.exitApp();
     });
-    this.props.dispatch({type: actions.ACTION_REPOSITORIES_LIST, username: this.props.login.token, page: 1, limit: 10});
+    this.props.dispatch({
+      type: actions.ACTION_REPOSITORIES_LIST,
+      username: this.props.login.token,
+      page: 1,
+      limit: consts.BASE_PAGE_LIMIT
+    });
   }
 
   render() {
@@ -114,9 +130,13 @@ export class RepositoriesList extends Component {
     this.props.dispatch({
       type: actions.ACTION_REPOSITORIES_LIST,
       username: this.props.login.token,
-      page: (Math.round(this.props.list.data.length / 10) + 1),
-      limit: 10,
+      page: this.getNextPage(),
+      limit: consts.BASE_PAGE_LIMIT,
     })
+  }
+
+  getNextPage() {
+    return Math.round(this.props.list.data.length / consts.BASE_PAGE_LIMIT) + 1
   }
 
 }

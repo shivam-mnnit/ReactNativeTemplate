@@ -9,7 +9,13 @@ import * as Api from "../api";
 function* getList(username, page, limit) {
   try {
     const list = yield call(Api.getRepositories, username, page, limit);
-    return list;
+    if (!list.message) {
+      yield put({type: actions.ACTION_LIST_SUCCESS, list: list, page: page});
+      return list;
+    } else {
+      yield put({type: actions.ACTION_LIST_ERROR, error: list.message});
+      return undefined
+    }
   } catch (error) {
     yield put({type: actions.ACTION_LIST_ERROR, error});
   }
@@ -22,6 +28,5 @@ export function* listFlow() {
     yield put({type: actions.PROGRESS, progress: true});
     const list = yield  call(getList, username, page, limit);
     yield put({type: actions.PROGRESS, progress: false});
-    yield put({type: actions.ACTION_LIST_SUCCESS, list: list, page: page});
   }
 }
