@@ -8,7 +8,7 @@ export const LOGIN_SUCCESS = "LOGIN_SUCESS";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const LOGIN_ERROR = "LOGIN_ERROR";
 export const LOGOUT_ERROR = "LOGOUT_ERROR";
-export const PROGRESS = "LOGOUT_ERROR";
+export const PROGRESS = "PROGRESS";
 
 
 export const ACTION_REPOSITORIES_LIST = "ACTION_REPOSITORIES_LIST";

@@ -1,13 +1,15 @@
 import React, {Component} from "react";
 import {Content, Input, Item, Label, Text} from "native-base";
 import strings from "../resources/strings";
+import PropTypes from 'prop-types';
 
 export default class ValidationTextInput extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      error: ""
+      error: "",
+      showDefaultValue: true,
     };
   }
 
@@ -27,9 +29,9 @@ export default class ValidationTextInput extends Component {
             style={validationTextStyles.inputStyle}
             secureTextEntry={this.props.secureTextEntry}
             onChangeText={(text) => this.handleTextChange(text)}
-            value={this.props.value}
-            keyboardType={this.props.type || 'default'}
-            onEndEditing={(event) => this.setError(event)}/>
+            onEndEditing={(event) => this.setError(event)}
+            {...this.state.showDefaultValue ? {value: this.props.defaultValue} : {}}
+          />
         </Item>
         <Text style={validationTextStyles.errorTextStyle}>{this.state.error } </Text>
       </Content>
@@ -37,7 +39,7 @@ export default class ValidationTextInput extends Component {
   }
 
   handleTextChange(text) {
-    this.setState({error: ""});
+    this.setState({error: "", showDefaultValue: false});
     if (this.props.onChangeText) {
       this.props.onChangeText(text);
     }
@@ -70,5 +72,11 @@ const validationTextStyles = {
   inputStyle: {
     color: 'white'
   }
+};
+
+ValidationTextInput.propTypes = {
+  // You can declare that a prop is a specific JS primitive. By default, these
+  // are all optional.
+  defaultValue: PropTypes.string
 };
 
