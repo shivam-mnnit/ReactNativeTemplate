@@ -2,13 +2,15 @@
  * Created by saionara1 on 7/5/17.
  */
 import React, {Component} from "react";
-import {Image, Text, View,BackHandler} from "react-native";
-import {Container, Content} from "native-base";
+import {Image, Text, View} from "react-native";
+import {Container, Content, Spinner} from "native-base";
 import colors from "../resources/colors";
 import {connect} from "react-redux";
 import * as actions from "../actions/action-types";
-import {MarkdownView} from "react-native-markdown-view";
+import dimens from "../resources/dimens";
+import styles from "../resources/styles";
 
+var Markdown = require('react-native-markdown');
 export class RepositoryDetails extends Component {
   static navigationOptions = {
     title: 'Details',
@@ -35,6 +37,14 @@ export class RepositoryDetails extends Component {
     });
   }
 
+  componentDidUpdate() {
+    const {detailsError} = this.props.details;
+    if (detailsError && detailsError.message) {
+      Toast.showShortBottom(detailsError.message);
+      this.props.dispatch({type: actions.LOGIN_ERROR, error: {}})
+    }
+  }
+
 
   render() {
     return (
@@ -48,42 +58,49 @@ export class RepositoryDetails extends Component {
             </View>
           </View>
           <Text style={detailsStyles.readMeLabel}>Read Me</Text>
-          {this.renderMarkdown()}
+          <Markdown>
+            {this.props.details.readMe}
+          </Markdown>
         </Content>
+        {this.renderProgress()}
       </Container>
     );
   }
 
-  renderMarkdown() {
-    if (this.props.details.readMe) {
-      return ( <MarkdownView style={detailsStyles.readMeStyle}>
-        {this.props.details.readMe}
-      </MarkdownView>);
+  renderProgress() {
+    if (this.props.root.progress) {
+      return ( <Spinner
+        color={colors.accentColor}
+        animating={true}
+        size={'large'}
+        style={styles.progressStyle}/>)
     } else {
-      return   <Text style={detailsStyles.descriptionStyle}>No ReadMe</Text>;
+      return null;
     }
   }
+
+
 }
 
 const detailsStyles = {
   contentStyle: {},
   mainInfoStyle: {
-    marginVertical: 8,
+    marginVertical: dimens.margin_small,
     flexDirection: 'row',
-    marginHorizontal: 16
+    marginHorizontal: dimens.margin_medium
   },
   textContainer: {
     flex: 0.5,
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    marginHorizontal: 8
+    marginHorizontal: dimens.margin_small
   },
   titleStyle: {
-    fontSize: 18,
+    fontSize: dimens.text_size_button,
     fontWeight: 'bold',
-    marginBottom: 8,
-    marginTop: 8
+    marginBottom: dimens.margin_small,
+    marginTop: dimens.margin_small
   },
   descriptionStyle: {
     fontSize: 14,
@@ -95,13 +112,13 @@ const detailsStyles = {
     height: 100
   },
   readMeLabel: {
-    fontSize: 20,
+    fontSize: dimens.text_size_label,
     fontWeight: 'bold',
-    marginVertical: 8,
-    marginLeft: 16
+    marginVertical: dimens.margin_small,
+    marginLeft: dimens.margin_medium
   },
-  readMeStyle:{
-    marginHorizontal:16,
+  readMeStyle: {
+    marginHorizontal: dimens.margin_medium,
   }
 };
 
