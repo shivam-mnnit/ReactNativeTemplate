@@ -21,14 +21,33 @@ function* authorize(username, password) {
   }
 }
 
+function* logOut(authorizationId) {
+    try {
+        const result = yield call(Api.logOut, authorizationId);
+        if (!result.message) {
+            yield put({type: actions.LOGOUT_SUCCESS});
+            return result;
+        } else {
+            yield put({type: actions.LOGOUT_ERROR, error: result});
+            return undefined;
+        }
+    } catch (error) {
+        console.log(error);
+        yield put({type: actions.LOGIN_ERROR, error});
+    }
+}
+
 export function* loginFlow() {
   while (true) {
     const {username, password} = yield take(actions.LOGIN_ACTION);
     yield put({type: actions.PROGRESS, progress: true});
-    const token = yield  call(authorize, username, password);
+    const token = yield call(authorize, username, password);
     yield put({type: actions.PROGRESS, progress: false});
     if (token) {
       yield take(actions.LOGOUT_ACTION);
+      yield put({type: actions.PROGRESS, progress: true});
+      const result = yield call(logOut, token.id);
+      yield put({type: actions.PROGRESS, progress: false});
     }
   }
 }
