@@ -9,6 +9,9 @@ module.exports = new LocalizedStrings({
     password: "Password",
     empty_error: "Cannot be empty",
     sign_in: 'Sign In',
+    tab_1: 'Tab1',
+    tab_2: 'Tab2',
+    tab_3: 'Tab3',
     list_title: 'Repositories'
   }
 });

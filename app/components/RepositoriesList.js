@@ -79,7 +79,7 @@ export class RepositoriesList extends Component {
             <FlatList
               style={repositoriesListStyles.flatListStyle}
               data={this.props.list.data}
-              heading={'Tab1'}
+              heading={strings.tab_1}
               onEndReachedThreshold={0.01}
               keyExtractor={this._keyExtractor}
               renderItem={this._renderItem}
@@ -90,7 +90,7 @@ export class RepositoriesList extends Component {
             <FlatList
               style={repositoriesListStyles.flatListStyle}
               data={this.props.list.data}
-              heading={'Tab2'}
+              heading={strings.tab_2}
               onEndReachedThreshold={0.01}
               keyExtractor={this._keyExtractor}
               renderItem={this._renderItem}
@@ -100,7 +100,7 @@ export class RepositoriesList extends Component {
             <FlatList
               style={repositoriesListStyles.flatListStyle}
               data={this.props.list.data}
-              heading={'Tab3'}
+              heading={strings.tab_3}
               keyExtractor={this._keyExtractor}
               renderItem={this._renderItem}
               onEndReachedThreshold={0.01}

@@ -3,19 +3,23 @@
  */
 import Base64 from "./utils/Base64";
 import consts from "./const";
+import queryString from "query-string";
 
 // work with api goes here
 
 export function getRepositories(token, page, limit) {
-  console.log(page);
-  return fetch('https://api.github.com/user/repos?access_token=' + token + '&page=' + page + '&per_page=' + limit, {
+  const query = queryString.stringify({
+    access_token: token,
+    page: page,
+    per_page: limit
+  });
+  return fetch('https://api.github.com/user/repos?' + query, {
     method: 'GET',
     headers: consts.BASE_HEADER
   }).then((list) => {
     return list.json()
   })
     .then((responseJson) => {
-      console.log(responseJson);
       return responseJson;
     })
     .catch((error) => {
@@ -26,7 +30,7 @@ export function getRepositories(token, page, limit) {
 
 export function getAccessToken(username, password) {
   baseString = Base64.btoa(username + ':' + password).replace('\n', '\\n');
-  return fetch('https://api.github.com/authorizations/clients/' + consts.CLIENT_ID, {
+  return fetch(`https://api.github.com/authorizations/clients/${consts.CLIENT_ID}`, {
     method: 'PUT',
     headers: {
       ...consts.BASE_HEADER,
