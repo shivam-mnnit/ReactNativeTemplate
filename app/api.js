@@ -8,12 +8,12 @@ import queryString from "query-string";
 // work with api goes here
 
 export function getRepositories(token, page, limit) {
-  const query = queryString.stringify({
+  const params = queryString.stringify({
     access_token: token,
     page: page,
     per_page: limit
   });
-  return fetch('https://api.github.com/user/repos?' + query, {
+  return fetch('https://api.github.com/user/repos?' + params, {
     method: 'GET',
     headers: consts.BASE_HEADER
   }).then((list) => {
