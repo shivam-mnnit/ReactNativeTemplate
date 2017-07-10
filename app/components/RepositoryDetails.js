@@ -9,8 +9,8 @@ import {connect} from "react-redux";
 import * as actions from "../actions/action-types";
 import dimens from "../resources/dimens";
 import styles from "../resources/styles";
+import Markdown from "react-native-simple-markdown";
 
-var Markdown = require('react-native-markdown');
 export class RepositoryDetails extends Component {
   static navigationOptions = {
     title: 'Details',
@@ -58,9 +58,22 @@ export class RepositoryDetails extends Component {
             </View>
           </View>
           <Text style={detailsStyles.readMeLabel}>Read Me</Text>
-          <Markdown>
-            {this.props.details.readMe}
-          </Markdown>
+          <View style={detailsStyles.readMeStyle}>
+            <Markdown
+              whiteList = {['paragraph']}
+              rules={{
+              image: {
+                react: (node, output, state) => (
+                  <Image
+                    key={state.key}
+                    source={{uri: node.target}}
+                  />
+                ),
+              },
+            }}>
+              {this.props.details.readMe}
+            </Markdown>
+          </View>
         </Content>
         {this.renderProgress()}
       </Container>

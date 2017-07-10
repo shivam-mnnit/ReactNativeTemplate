@@ -26,7 +26,6 @@ export function getRepositories(token, page, limit) {
 
 
 export function getReadMe(token, username, repository) {
-  console.log('https://api.github.com/repos/' + 'TeeRawk' + '/' + repository + '/readme?access_token=' + token);
   return fetch('https://api.github.com/repos/' + 'TeeRawk' + '/' + repository + '/readme?access_token=' + token, {
     method: 'GET',
     headers: {
@@ -37,7 +36,6 @@ export function getReadMe(token, username, repository) {
     return readMe.json()
   })
     .then((responseJson) => {
-      console.log(Base64.atob(responseJson.content));
       return responseJson;
     })
     .catch((error) => {
