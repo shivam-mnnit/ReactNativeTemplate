@@ -20,7 +20,6 @@ export default function loginReducer(state = initialState, action = {}) {
         loginError: action.error
       };
     case actions.LOGIN_SUCCESS: {
-      console.log("Login Sucess");
       return {
         ...state,
         progress: false,

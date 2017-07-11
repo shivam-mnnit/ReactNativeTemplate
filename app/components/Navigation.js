@@ -3,14 +3,19 @@
  */
 import React, {Component} from "react";
 import {connect, Provider} from "react-redux";
-import {BackAndroidi} from "react-native";
 import configureStore from "../store/configureStore.js";
 import {StackNavigator} from "react-navigation";
 import Login from "./Login";
+import RepositoriesList from "./RepositoriesList";
 
 const store = configureStore();
-const Routes = {Login: {screen: Login},};
-const Navigator = StackNavigator(Routes, {});
+const Routes = {
+  Login: {screen: Login},
+  RepositoriesList: {screen: RepositoriesList},
+};
+const Navigator = StackNavigator(Routes, {
+  headerMode: 'screen'
+});
 
 export class Navigation extends Component {
 

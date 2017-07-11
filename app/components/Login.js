@@ -11,6 +11,7 @@ import consts from "../const";
 import dimens from "../resources/dimens";
 import strings from "../resources/strings";
 import * as actions from "../actions/action-types";
+import styles from "../resources/styles";
 import Toast from "react-native-toast";
 
 export class Login extends Component {
@@ -22,12 +23,23 @@ export class Login extends Component {
     super();
     this.password = "";
     this.email = "";
+    this.isGoneAlready = false;
+  }
+
+  componentDidMount() {
+    this.props.dispatch({type: actions.PROGRESS, progress: false})
   }
 
   componentDidUpdate() {
-    if (this.props.login.loginError.message) {
+    const {navigation, login} = this.props;
+    const {loginError, isLoggedIn} = login;
+
+    if (loginError && loginError.message) {
       Toast.showShortBottom(this.props.login.loginError.message);
       this.props.dispatch({type: actions.LOGIN_ERROR, error: {}})
+    } else if (isLoggedIn && !this.isGoneAlready) {
+      navigation.navigate("RepositoriesList");
+      this.isGoneAlready = true;
     }
   }
 
@@ -67,7 +79,7 @@ export class Login extends Component {
         color={colors.accentColor}
         animating={true}
         size={'large'}
-        style={loginStyles.progressStyle}/>)
+        style={styles.progressStyle}/>)
     } else {
       return null;
     }
@@ -122,14 +134,10 @@ const loginStyles = {
     width: 150,
     height: 150,
   },
-  progressStyle: {
-    alignSelf: 'center',
-    position: 'absolute',
-  }
+
 };
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
     login: state.login,
     root: state.root

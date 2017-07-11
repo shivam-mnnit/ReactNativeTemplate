@@ -9,5 +9,6 @@ export default {
   BASE_HEADER: {
     'Accept': 'application/vnd.github.v3.full+json',
     'Content-Type': 'application/json',
-  }
+  },
+  BASE_PAGE_LIMIT:10
 }

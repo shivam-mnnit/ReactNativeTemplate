@@ -78,5 +78,5 @@ ValidationTextInput.propTypes = {
   // You can declare that a prop is a specific JS primitive. By default, these
   // are all optional.
   defaultValue: PropTypes.string
-}
+};
 
