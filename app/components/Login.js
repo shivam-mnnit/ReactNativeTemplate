@@ -39,7 +39,12 @@ export class Login extends Component {
       this.props.dispatch({type: actions.LOGIN_ERROR, error: {}})
     }
     if (isLoggedIn && !this.isGoneAlready) {
-      navigation.navigate("RepositoriesList", {dispatch: this.props.dispatch, authId: this.props.login.authorizationId});
+      navigation.navigate("RepositoriesList", {
+        dispatch: this.props.dispatch,
+          authId: this.props.login.authorizationId,
+          username: this.props.login.username,
+          password: this.props.login.password
+      });
       this.isGoneAlready = true;
     }
   }

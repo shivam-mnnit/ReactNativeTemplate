@@ -46,19 +46,14 @@ export function getAccessToken(username, password) {
         });
 }
 
-export function logOut(authorizationId) {
-    return fetch(`https://api.github.com/authorizations/${authorizationId}`, {
+export function logOut(authId, username, password) {
+    baseString = Base64.btoa(username + ':' + password).replace('\n', '\\n');
+    return fetch(`https://api.github.com/authorizations/${authId}`, {
         method: 'DELETE',
         headers: {
-            ...consts.BASE_HEADER
-            //   "Authorization": "Basic " + baseString
-        }
-    }).then((user) => {
-        return user.json()
-    })
-        .then((responseJson) => {
-            return responseJson;
-        })
+            ...consts.BASE_HEADER,
+            "Authorization": "Basic " + baseString
+        }})
         .catch((error) => {
             console.log(error);
         });

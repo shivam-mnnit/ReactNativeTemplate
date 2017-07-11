@@ -7,7 +7,9 @@ const initialState = {
     isLoggedIn: false,
     token: '',
     loginError: {},
-    authorizationId: ''
+    authorizationId: '',
+    username: '',
+    password: ''
 };
 export default function loginReducer(state = initialState, action = {}) {
     switch (action.type) {
@@ -18,7 +20,9 @@ export default function loginReducer(state = initialState, action = {}) {
                 ...state,
                 isLoggedIn: false,
                 progress: false,
-                loginError: action.error
+                loginError: action.error,
+                username: '',
+                password: ''
             };
         case actions.LOGIN_SUCCESS: {
             return {
@@ -26,7 +30,9 @@ export default function loginReducer(state = initialState, action = {}) {
                 progress: false,
                 isLoggedIn: true,
                 token: action.token.token,
-                authorizationId: action.token.id
+                authorizationId: action.token.id,
+                username: action.username,
+                password: action.password
             };
         }
         case actions.LOGOUT_SUCCESS: {
@@ -35,7 +41,9 @@ export default function loginReducer(state = initialState, action = {}) {
                 progress: false,
                 isLoggedIn: false,
                 token: '',
-                authorizationId: ''
+                authorizationId: '',
+                username: '',
+                password: ''
             };
         }
         case actions.LOGOUT_ERROR: {

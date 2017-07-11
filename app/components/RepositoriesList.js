@@ -31,8 +31,12 @@ export class RepositoriesList extends Component {
         return {
             headerRight: (
                 <TouchableOpacity onPress={() => {
-                    console.log("props", navigation.state.params.authId)
-                    navigation.state.params.dispatch({type: actions.LOGOUT_ACTION})
+                    console.log("props", navigation.state.params.authId + "  " + navigation.state.params.username +  " " + navigation.state.params.password)
+                    navigation.state.params.dispatch({
+                        type: actions.LOGOUT_ACTION,
+                        authId: navigation.state.params.authId,
+                        username: navigation.state.params.username,
+                        password: navigation.state.params.password})
                 }}>
                     <Text style={repositoriesListStyles.logOutTextStyle}>{strings.logout}</Text>
                 </TouchableOpacity>
@@ -71,6 +75,13 @@ export class RepositoriesList extends Component {
         const {list} = this.props;
         const {listError} = list;
 
+        const {navigation, login} = this.props;
+        const {isLoggedIn} = login;
+        if (!isLoggedIn && !this.isGoneAlready) {
+            navigation.navigate("Login")
+            this.isGoneAlready = true;
+        }
+
         if (listError && listError.message) {
             Toast.showShortBottom(this.props.login.loginError.message);
             this.props.dispatch({type: actions.ACTION_LIST_ERROR, error: {}})
@@ -83,7 +94,7 @@ export class RepositoriesList extends Component {
         });
         this.props.dispatch({
             type: actions.ACTION_REPOSITORIES_LIST,
-            username: this.props.login.token,
+            token: this.props.login.token,
             page: 1,
             limit: consts.BASE_PAGE_LIMIT
         });
@@ -149,7 +160,7 @@ export class RepositoriesList extends Component {
     dispatchGetRepos() {
         this.props.dispatch({
             type: actions.ACTION_REPOSITORIES_LIST,
-            username: this.props.login.token,
+            token: this.props.login.token,
             page: this.getNextPage(),
             limit: consts.BASE_PAGE_LIMIT,
         })
