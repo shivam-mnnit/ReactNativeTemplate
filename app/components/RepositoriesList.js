@@ -135,7 +135,7 @@ export class RepositoriesList extends Component {
   }
 
   getNextPage() {
-    return Math.round(this.props.list.data.length / consts.BASE_PAGE_LIMIT) + 1
+    return Math.ceil(this.props.list.data.length / consts.BASE_PAGE_LIMIT) + 1
   }
 
 }
