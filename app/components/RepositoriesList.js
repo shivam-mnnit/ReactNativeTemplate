@@ -12,6 +12,7 @@ import {connect} from "react-redux";
 import strings from "../resources/strings";
 import getTheme from "../native_theme/components";
 import styles from "../resources/styles";
+import consts from "../const";
 
 export class RepositoriesList extends Component {
 
@@ -46,8 +47,26 @@ export class RepositoriesList extends Component {
     />
   );
 
+  componentDidUpdate() {
+    const {list} = this.props;
+    const {listError} = list;
+
+    if (listError && listError.message) {
+      Toast.showShortBottom(this.props.login.loginError.message);
+      this.props.dispatch({type: actions.ACTION_LIST_ERROR, error: {}})
+    }
+  }
+
   componentDidMount() {
-    this.props.dispatch({type: actions.ACTION_REPOSITORIES_LIST, username: this.props.login.token, page: 1, limit: 10});
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      BackHandler.exitApp();
+    });
+    this.props.dispatch({
+      type: actions.ACTION_REPOSITORIES_LIST,
+      username: this.props.login.token,
+      page: 1,
+      limit: consts.BASE_PAGE_LIMIT
+    });
   }
 
   render() {
@@ -61,7 +80,7 @@ export class RepositoriesList extends Component {
             <FlatList
               style={repositoriesListStyles.flatListStyle}
               data={this.props.list.data}
-              heading={'Tab1'}
+              heading={strings.tab_1}
               onEndReachedThreshold={0.01}
               keyExtractor={this._keyExtractor}
               renderItem={this._renderItem}
@@ -72,7 +91,7 @@ export class RepositoriesList extends Component {
             <FlatList
               style={repositoriesListStyles.flatListStyle}
               data={this.props.list.data}
-              heading={'Tab2'}
+              heading={strings.tab_2}
               onEndReachedThreshold={0.01}
               keyExtractor={this._keyExtractor}
               renderItem={this._renderItem}
@@ -82,7 +101,7 @@ export class RepositoriesList extends Component {
             <FlatList
               style={repositoriesListStyles.flatListStyle}
               data={this.props.list.data}
-              heading={'Tab3'}
+              heading={strings.tab_3}
               keyExtractor={this._keyExtractor}
               renderItem={this._renderItem}
               onEndReachedThreshold={0.01}
@@ -111,9 +130,13 @@ export class RepositoriesList extends Component {
     this.props.dispatch({
       type: actions.ACTION_REPOSITORIES_LIST,
       username: this.props.login.token,
-      page: (Math.round(this.props.list.data.length / 10) + 1),
-      limit: 10,
+      page: this.getNextPage(),
+      limit: consts.BASE_PAGE_LIMIT,
     })
+  }
+
+  getNextPage() {
+    return Math.ceil(this.props.list.data.length / consts.BASE_PAGE_LIMIT) + 1
   }
 
 }

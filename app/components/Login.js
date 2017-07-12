@@ -37,8 +37,7 @@ export class Login extends Component {
     if (loginError && loginError.message) {
       Toast.showShortBottom(this.props.login.loginError.message);
       this.props.dispatch({type: actions.LOGIN_ERROR, error: {}})
-    }
-    if (isLoggedIn && !this.isGoneAlready) {
+    } else if (isLoggedIn && !this.isGoneAlready) {
       navigation.navigate("RepositoriesList");
       this.isGoneAlready = true;
     }
@@ -91,7 +90,7 @@ export class Login extends Component {
   }
 
   validatePassword(text) {
-    return text >= consts.MIN_PASSWORD_LENGTH;
+    return text.length >= consts.MIN_PASSWORD_LENGTH;
 
   }
 

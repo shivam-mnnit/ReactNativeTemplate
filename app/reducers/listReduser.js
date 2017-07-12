@@ -8,6 +8,11 @@ const initialState = {
 };
 export default function loginReducer(state = initialState, action = {}) {
   switch (action.type) {
+    case actions.ACTION_LIST_ERROR:
+      return {
+        ...state,
+        loginError: action.error
+      };
     case actions.ACTION_LIST_SUCCESS:
       return {
         ...state,
