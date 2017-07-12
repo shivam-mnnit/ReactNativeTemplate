@@ -6,7 +6,8 @@ import * as actions from "../actions/action-types";
 const initialState = {
   isLoggedIn: false,
   token: '',
-  loginError: {}
+  loginError: {},
+  user: {}
 };
 export default function loginReducer(state = initialState, action = {}) {
   switch (action.type) {

@@ -10,7 +10,7 @@ module.exports = new LocalizedStrings({
     empty_error: "Cannot be empty",
     sign_in: 'Sign In',
     list_title: 'Repositories',
-    details: 'Details'
+    details: 'Details',
     tab_1: 'Tab1',
     tab_2: 'Tab2',
     tab_3: 'Tab3',

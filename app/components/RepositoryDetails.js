@@ -11,6 +11,7 @@ import dimens from "../resources/dimens";
 import styles from "../resources/styles";
 import HTML from "react-native-render-html";
 import showdown from "showdown";
+import strings from '../resources/strings'
 
 
 export class RepositoryDetails extends Component {
@@ -34,7 +35,7 @@ export class RepositoryDetails extends Component {
     this.props.dispatch({
       type: actions.ACTION_README,
       token: this.props.login.token,
-      username: this.props.login.user.login,
+      username: this.params.repository.owner.login,
       repository: this.params.repository.name
     });
   }

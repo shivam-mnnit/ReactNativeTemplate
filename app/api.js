@@ -29,7 +29,7 @@ export function getRepositories(token, page, limit) {
 
 
 export function getReadMe(token, username, repository) {
-  return fetch('https://api.github.com/repos/' + 'TeeRawk' + '/' + repository + '/readme?access_token=' + token, {
+  return fetch('https://api.github.com/repos/' + username + '/' + repository + '/readme?access_token=' + token, {
     method: 'GET',
     headers: {
       'Accept': 'application/vnd.github.v3.full+json',
