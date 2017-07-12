@@ -7,7 +7,7 @@ import {AsyncStorage} from "react-native";
 import loginReducer from "../reducers/loginReducer";
 import rootReducer from "../reducers/rootReducer";
 import listReducer from "../reducers/listReduser";
-import detailsReducer from "../reducers/detailsRediucer";
+import detailsReducer from "../reducers/detailsReducer";
 import createSagaMiddleware from "redux-saga";
 import * as loginSaga from "../saga/login-saga";
 import * as listSaga from "../saga/list-saga";
@@ -24,7 +24,7 @@ const combinedReducers = combineReducers({
 export default function configureStore() {
   const sagaMiddleware = createSagaMiddleware();
   store = createStore(combinedReducers, compose(applyMiddleware(sagaMiddleware), autoRehydrate()));
-  persistStore(store, {storage: AsyncStorage, blacklist: ['root']});
+  persistStore(store, {storage: AsyncStorage, blacklist: ['root','details']});
   return {
     ...store, runSaga: [sagaMiddleware.run(loginSaga.loginFlow),
       sagaMiddleware.run(listSaga.listFlow),

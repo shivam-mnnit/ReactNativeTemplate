@@ -30,8 +30,7 @@ export function* detailsFlow() {
   while (true) {
     const {token, username, repository} = yield take(actions.ACTION_README);
     yield put({type: actions.PROGRESS, progress: true});
-    const readMe = yield  call(getReadMe, token, username, repository);
+    yield  call(getReadMe, token, username, repository);
     yield put({type: actions.PROGRESS, progress: false});
-
   }
 }

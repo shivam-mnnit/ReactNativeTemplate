@@ -9,11 +9,13 @@ import {connect} from "react-redux";
 import * as actions from "../actions/action-types";
 import dimens from "../resources/dimens";
 import styles from "../resources/styles";
-import Markdown from "react-native-simple-markdown";
+import HTML from "react-native-render-html";
+import showdown from "showdown";
+
 
 export class RepositoryDetails extends Component {
   static navigationOptions = {
-    title: 'Details',
+    title: strings.details,
     headerTintColor: 'white',
     headerTitleStyle: {
       color: 'white'
@@ -47,8 +49,9 @@ export class RepositoryDetails extends Component {
 
 
   render() {
+    showdown.setFlavor('github');
     return (
-      <Container>
+      <Container style={{flexDirection: 'row'}}>
         <Content contentContainerStyle={detailsStyles.contentStyle}>
           <View style={detailsStyles.mainInfoStyle}>
             <Image style={detailsStyles.imageStyle} source={{uri: this.params.repository.owner.avatar_url}}/>
@@ -58,24 +61,17 @@ export class RepositoryDetails extends Component {
             </View>
           </View>
           <Text style={detailsStyles.readMeLabel}>Read Me</Text>
+          {this.renderProgress()}
           <View style={detailsStyles.readMeStyle}>
-            <Markdown
-              whiteList = {['paragraph']}
-              rules={{
-              image: {
-                react: (node, output, state) => (
-                  <Image
-                    key={state.key}
-                    source={{uri: node.target}}
-                  />
-                ),
-              },
-            }}>
-              {this.props.details.readMe}
-            </Markdown>
+
+            <HTML
+              html={new showdown.Converter().makeHtml(this.props.details.readMe)}
+              htmlStyles={styles}
+              renderers={renderers}
+            />
           </View>
+
         </Content>
-        {this.renderProgress()}
       </Container>
     );
   }
@@ -94,12 +90,29 @@ export class RepositoryDetails extends Component {
 
 
 }
+const renderers = {
+  img: (htmlAttribs, children, passProps) => {
+    console.log(htmlAttribs.src);
+    return (
+      <Image
+        source={{uri: htmlAttribs.src,...detailsStyles.imageStyle}}
+      />)
+  }
+};
 
 const detailsStyles = {
-  contentStyle: {},
+  contentStyle: {
+    backgroundColor: 'white',
+    flex: 0,
+    flexDirection: 'column',
+    flexGrow: 2,
+    alignSelf: 'flex-start',
+    justifyContent: 'center',
+  },
   mainInfoStyle: {
     marginVertical: dimens.margin_small,
     flexDirection: 'row',
+    alignSelf: 'flex-start',
     marginHorizontal: dimens.margin_medium
   },
   textContainer: {
@@ -131,6 +144,7 @@ const detailsStyles = {
     marginLeft: dimens.margin_medium
   },
   readMeStyle: {
+    flex: 1,
     marginHorizontal: dimens.margin_medium,
   }
 };

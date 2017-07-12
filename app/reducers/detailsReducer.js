@@ -4,7 +4,7 @@
 import * as actions from "../actions/action-types";
 
 const initialState = {
-  readMe: []
+  readMe: ''
 };
 export default function detailsReducer(state = initialState, action = {}) {
   switch (action.type) {
