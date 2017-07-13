@@ -1,6 +1,7 @@
 /**
  * Created by ihor_kucherenko on 6/28/17.
  */
+
 import React, {Component} from "react";
 import {BackHandler, FlatList, View} from "react-native";
 import {Container, Spinner, StyleProvider, Tabs} from "native-base";
@@ -13,6 +14,7 @@ import strings from "../resources/strings";
 import getTheme from "../native_theme/components";
 import styles from "../resources/styles";
 import consts from "../const";
+import * as Toast from "@remobile/react-native-toast/index";
 
 export class RepositoriesList extends Component {
 
@@ -51,7 +53,7 @@ export class RepositoriesList extends Component {
     const {listError} = list;
 
     if (listError && listError.message) {
-      Toast.showShortBottom(this.props.login.loginError.message);
+      Toast.showShortBottom(this.props.login.get('loginError').message);
       this.props.dispatch({type: actions.ACTION_LIST_ERROR, error: {}})
     }
   }
@@ -60,9 +62,10 @@ export class RepositoriesList extends Component {
     BackHandler.addEventListener('hardwareBackPress', () => {
       BackHandler.exitApp();
     });
+    console.log(this.props.login);
     this.props.dispatch({
       type: actions.ACTION_REPOSITORIES_LIST,
-      username: this.props.login.token,
+      username: this.props.login.get('token'),
       page: 1,
       limit: consts.BASE_PAGE_LIMIT
     });
@@ -78,7 +81,7 @@ export class RepositoriesList extends Component {
           <Tabs >
             <FlatList
               style={repositoriesListStyles.flatListStyle}
-              data={this.props.list.data}
+              data={this.props.list.get('data')}
               heading={strings.tab_1}
               onEndReachedThreshold={0.01}
               keyExtractor={this._keyExtractor}
@@ -89,7 +92,7 @@ export class RepositoriesList extends Component {
 
             <FlatList
               style={repositoriesListStyles.flatListStyle}
-              data={this.props.list.data}
+              data={this.props.list.get('data')}
               heading={strings.tab_2}
               onEndReachedThreshold={0.01}
               keyExtractor={this._keyExtractor}
@@ -99,7 +102,7 @@ export class RepositoriesList extends Component {
             />
             <FlatList
               style={repositoriesListStyles.flatListStyle}
-              data={this.props.list.data}
+              data={this.props.list.get('data')}
               heading={strings.tab_3}
               keyExtractor={this._keyExtractor}
               renderItem={this._renderItem}
@@ -114,7 +117,7 @@ export class RepositoriesList extends Component {
   }
 
   renderProgress() {
-    if (this.props.root.progress) {
+    if (this.props.root.get('progress')) {
       return ( <Spinner
         color={colors.accentColor}
         animating={true}
@@ -128,14 +131,14 @@ export class RepositoriesList extends Component {
   dispatchGetRepos() {
     this.props.dispatch({
       type: actions.ACTION_REPOSITORIES_LIST,
-      username: this.props.login.token,
+      username: this.props.login.get('token'),
       page: this.getNextPage(),
       limit: consts.BASE_PAGE_LIMIT,
     })
   }
 
   getNextPage() {
-    return Math.ceil(this.props.list.data.length / consts.BASE_PAGE_LIMIT) + 1
+    return Math.ceil(this.props.list.get('data').length / consts.BASE_PAGE_LIMIT) + 1
   }
 
 }
@@ -156,9 +159,9 @@ const repositoriesListStyles = {
 
 function mapStateToProps(state) {
   return {
-    login: state.login,
-    list: state.list,
-    root: state.root
+    login: state.get('login'),
+    list: state.get('list'),
+    root: state.get('root'),
   }
 }
 export default connect(mapStateToProps)(RepositoriesList)

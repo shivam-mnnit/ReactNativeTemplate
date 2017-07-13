@@ -20,6 +20,7 @@ export function getRepositories(token, page, limit) {
     return list.json()
   })
     .then((responseJson) => {
+    console.log(responseJson);
       return responseJson;
     })
     .catch((error) => {

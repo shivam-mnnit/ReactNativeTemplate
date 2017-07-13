@@ -3,19 +3,11 @@
  */
 import * as actions from "../actions/action-types";
 
-const initialState = {
-  progress: false
-};
-export default function loginReducer(state = initialState, action = {}) {
+export default function rootReducer(state, action = {}) {
   switch (action.type) {
     case actions.PROGRESS:
-      return {
-        ...state,
-        progress: action.progress
-      };
+      return state.set('progress', action.progress);
     default:
-      return {
-        ...state
-      }
+      return state
   }
 }
