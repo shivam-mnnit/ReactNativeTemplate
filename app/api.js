@@ -13,7 +13,7 @@ export function getRepositories(token, page, limit) {
     page: page,
     per_page: limit
   });
-  return fetch('https://api.github.com/user/repos?' + params, {
+  return fetch(`https://api.github.com/user/repos?${params}`, {
     method: 'GET',
     headers: consts.BASE_HEADER
   }).then((list) => {
@@ -29,7 +29,7 @@ export function getReadMe(token, username, repository) {
   const params = queryString.stringify({
     access_token: token,
   });
-  return fetch('https://api.github.com/repos/' + username + '/' + repository + '/readme?' + params, {
+  return fetch(`https://api.github.com/repos/${username}/${repository}/readme?${params}`, {
     method: 'GET',
     headers: {
       'Accept': 'application/vnd.github.v3.full+json',
