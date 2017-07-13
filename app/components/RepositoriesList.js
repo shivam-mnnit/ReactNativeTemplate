@@ -2,8 +2,8 @@
  * Created by ihor_kucherenko on 6/28/17.
  */
 import React, {Component} from "react";
-import {BackHandler, FlatList, View, Button, TouchableOpacity, Text} from "react-native";
-import {Container, Spinner, StyleProvider, Tabs} from "native-base";
+import {BackHandler, FlatList, View, TouchableOpacity, Text, Dimensions} from "react-native";
+import {Container, Spinner, StyleProvider, Tabs, Button} from "native-base";
 import RepositoryListItem from "./RepositoryListItem";
 import colors from "../resources/colors";
 import * as actions from "../actions/action-types";
@@ -13,30 +13,18 @@ import strings from "../resources/strings";
 import getTheme from "../native_theme/components";
 import styles from "../resources/styles";
 import consts from "../const";
+import dimens from "../resources/dimens"
+import PopupDialog, {DialogTitle, ScaleAnimation} from "react-native-popup-dialog";
 
-function renderLeft(state) {
-    //  const { editing } = state.params || false;
-    return (
-        <Button
-            title='lll'
-            // onPress={() => state.params.handleEdit()}
-        />
-    );
-}
-
-
+const {height, width} = Dimensions.get('window');
 export class RepositoriesList extends Component {
 
-    static navigationOptions = ({navigation}) => {
+
+    static navigationOptions = ({navigation, screenProps}) => {
         return {
             headerRight: (
                 <TouchableOpacity onPress={() => {
-                    console.log("props", navigation.state.params.authId + "  " + navigation.state.params.username +  " " + navigation.state.params.password)
-                    navigation.state.params.dispatch({
-                        type: actions.LOGOUT_ACTION,
-                        authId: navigation.state.params.authId,
-                        username: navigation.state.params.username,
-                        password: navigation.state.params.password})
+                    navigation.state.params.showDialog();
                 }}>
                     <Text style={repositoriesListStyles.logOutTextStyle}>{strings.logout}</Text>
                 </TouchableOpacity>
@@ -58,6 +46,7 @@ export class RepositoriesList extends Component {
         this.state = {
             page: 1,
         }
+        this.popupDialog = {}
     }
 
     _keyExtractor = (item, index) => item.id;
@@ -78,7 +67,7 @@ export class RepositoriesList extends Component {
         const {navigation, login} = this.props;
         const {isLoggedIn} = login;
         if (!isLoggedIn && !this.isGoneAlready) {
-            navigation.navigate("Login")
+            navigation.navigate("Login");
             this.isGoneAlready = true;
         }
 
@@ -89,6 +78,9 @@ export class RepositoriesList extends Component {
     }
 
     componentDidMount() {
+        this.props.navigation.setParams({
+            showDialog: this.showDialog.bind(this)
+        });
         BackHandler.addEventListener('hardwareBackPress', () => {
             BackHandler.exitApp();
         });
@@ -139,10 +131,46 @@ export class RepositoriesList extends Component {
                             onEndReached={() => this.dispatchGetRepos()}
                             ItemSeparatorComponent={() => <View style={repositoriesListStyles.itemSeparatorStyle}/>}
                         />
+
                     </Tabs>
                     {this.renderProgress()}
+                    <PopupDialog
+                        width={width - dimens.margin_medium * 2}
+                        dialogStyle={{height: 150}}
+                        dialogAnimation={ new ScaleAnimation() }
+                        dialogTitle={<DialogTitle titleTextStyle={{fontSize: 20, color: 'black'}} title="Log Out"/>}
+                        ref={(popupDialog) => {
+                            this.popupDialog = popupDialog;
+                        }}>
+                        <View style={{flexGrow: 1, alignItems: 'center'}}>
+                            <Text style={repositoriesListStyles.dialogDescriptionStyle}>Are you sure you want to logout?</Text>
+                            <View style={repositoriesListStyles.dialogButtonContainer}>
+                                <Button transparent onPress={() => {
+                                    this.dispatchLogOut();
+                                    this.popupDialog.dismiss();
+                                }}><Text style={repositoriesListStyles.dialogButtonTextStyle}>Ok</Text></Button>
+                                <Button transparent onPress={() => {
+                                    this.popupDialog.dismiss()
+                                }}><Text style={repositoriesListStyles.dialogButtonTextStyle}>Cancel</Text></Button>
+                            </View>
+                        </View>
+                    </PopupDialog>
                 </Container>
+
             </StyleProvider>)
+    }
+
+    showDialog() {
+        this.popupDialog.show();
+    }
+
+    dispatchLogOut() {
+        this.props.dispatch({
+            type: actions.LOGOUT_ACTION,
+            authId: this.props.login.authorizationId,
+            username: this.props.login.username,
+            password: this.props.login.password
+        })
     }
 
     renderProgress() {
@@ -188,7 +216,21 @@ const repositoriesListStyles = {
         fontWeight: 'bold',
         color: 'white',
         marginRight: 16
-    }
+    },
+    dialogDescriptionStyle: {
+        flexGrow: 1,
+        fontSize: 16
+    },
+    dialogButtonContainer: {
+        flexGrow: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignSelf: 'flex-end'
+    },
+    dialogButtonTextStyle: {
+        color: colors.accentColor,
+        fontSize: 20
+    },
 };
 
 function mapStateToProps(state) {

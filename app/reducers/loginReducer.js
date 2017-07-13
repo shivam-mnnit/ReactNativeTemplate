@@ -36,6 +36,7 @@ export default function loginReducer(state = initialState, action = {}) {
             };
         }
         case actions.LOGOUT_SUCCESS: {
+            console.warn('Logout')
             return {
                 ...state,
                 progress: false,
@@ -47,8 +48,6 @@ export default function loginReducer(state = initialState, action = {}) {
             };
         }
         case actions.LOGOUT_ERROR: {
-            console.log('Catch error');
-            console.log(action);
             return {
                 ...state,
                 isLoggedIn: true,

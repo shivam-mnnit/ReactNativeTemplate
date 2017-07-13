@@ -10,29 +10,28 @@ import RepositoriesList from "./RepositoriesList";
 
 const store = configureStore();
 const Routes = {
-  Login: {screen: Login},
-  RepositoriesList: {screen: RepositoriesList}
+    Login: {screen: Login},
+    RepositoriesList: {screen: RepositoriesList}
 };
 const Navigator = StackNavigator(Routes, {
-  headerMode: 'screen'
+    headerMode: 'screen'
 });
 
 export class Navigation extends Component {
-
-  render() {
-    return (
-      <Provider store={store}>
-        <Navigator/>
-      </Provider>
-    );
-  }
+    render() {
+        return (
+            <Provider store={store}>
+                <Navigator/>
+            </Provider>
+        );
+    }
 
 }
 
 function mapStateToProps(state) {
-  return {
-    login: state.login
-  }
+    return {
+        login: state.login
+    }
 }
 export default connect(
-  mapStateToProps)(Navigation);
+    mapStateToProps)(Navigation);

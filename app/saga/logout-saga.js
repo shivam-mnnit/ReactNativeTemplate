@@ -25,7 +25,7 @@ export function* logoutFlow() {
     while (true) {
         const {username, password, authId} = yield take(actions.LOGOUT_ACTION);
         yield put({type: actions.PROGRESS, progress: true});
-        const result = yield call(logOut, authId, username, password);
+        yield call(logOut, authId, username, password);
         yield put({type: actions.PROGRESS, progress: false});
     }
 }

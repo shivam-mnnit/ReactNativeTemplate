@@ -41,6 +41,27 @@ public class MainApplication extends Application implements ReactApplication {
     public void onCreate() {
         super.onCreate();
         SoLoader.init(this, /* native exopackage */ false);
+        // This is a hack to get around it. Make sure you remove it before releasing
+        // as you should never run network calls on the main thread
+        if (BuildConfig.DEBUG) {
+            strictModePermitAll();
+        }
+    }
+
+    private static void strictModePermitAll() {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        if (Build.VERSION.SDK_INT >= 16) {
+            //restore strict mode after onCreate() returns. https://issuetracker.google.com/issues/36951662
+            new Handler().postAtFrontOfQueue(new Runnable() {
+                @Override
+                public void run() {
+                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                    StrictMode.setThreadPolicy(policy);
+                }
+            });
+        }
     }
 
 }
