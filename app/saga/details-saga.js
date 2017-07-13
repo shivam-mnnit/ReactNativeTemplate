@@ -7,14 +7,18 @@ import * as Api from "../api";
 import Base64 from "../utils/Base64";
 
 
+function dispatchReadmeSuccess(readMe) {
+  if (readMe.content) {
+    const content = Base64.atob(readMe.content);
+    yield put({type: actions.ACTION_README_SUCCESS, readMe: content});
+  }
+}
+
 function* getReadMe(token, username, repository) {
   try {
     const readMe = yield call(Api.getReadMe, token, username, repository);
     if (!readMe.message) {
-      if (readMe.content) {
-        const content = Base64.atob(readMe.content);
-        yield put({type: actions.ACTION_README_SUCCESS, readMe: content});
-      }
+      dispatchReadmeSuccess(readMe);
       return token;
     } else {
       yield put({type: actions.ACTION_README_ERROR, error: readMe});
@@ -24,7 +28,6 @@ function* getReadMe(token, username, repository) {
     yield put({type: actions.ACTION_README_ERROR, error});
   }
 }
-
 
 export function* detailsFlow() {
   while (true) {

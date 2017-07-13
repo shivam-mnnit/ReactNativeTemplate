@@ -11,7 +11,7 @@ import dimens from "../resources/dimens";
 import styles from "../resources/styles";
 import HTML from "react-native-render-html";
 import showdown from "showdown";
-import strings from '../resources/strings'
+import strings from "../resources/strings";
 
 
 export class RepositoryDetails extends Component {
@@ -32,6 +32,10 @@ export class RepositoryDetails extends Component {
   }
 
   componentDidMount() {
+    this.dispatchReadme();
+  }
+
+  dispatchReadme() {
     this.props.dispatch({
       type: actions.ACTION_README,
       token: this.props.login.token,
@@ -41,6 +45,10 @@ export class RepositoryDetails extends Component {
   }
 
   componentDidUpdate() {
+    this.handleError();
+  }
+
+  handleError() {
     const {detailsError} = this.props.details;
     if (detailsError && detailsError.message) {
       Toast.showShortBottom(detailsError.message);
@@ -64,14 +72,12 @@ export class RepositoryDetails extends Component {
           <Text style={detailsStyles.readMeLabel}>Read Me</Text>
           {this.renderProgress()}
           <View style={detailsStyles.readMeStyle}>
-
             <HTML
               html={new showdown.Converter().makeHtml(this.props.details.readMe)}
               htmlStyles={styles}
               renderers={renderers}
             />
           </View>
-
         </Content>
       </Container>
     );
@@ -88,15 +94,13 @@ export class RepositoryDetails extends Component {
       return null;
     }
   }
-
-
 }
 const renderers = {
   img: (htmlAttribs, children, passProps) => {
     console.log(htmlAttribs.src);
     return (
       <Image
-        source={{uri: htmlAttribs.src,...detailsStyles.imageStyle}}
+        source={{uri: htmlAttribs.src, ...detailsStyles.imageStyle}}
       />)
   }
 };

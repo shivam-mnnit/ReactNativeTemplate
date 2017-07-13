@@ -17,6 +17,5 @@ export default function detailsReducer(state = initialState, action = {}) {
       return {
         ...state
       }
-
   }
 }

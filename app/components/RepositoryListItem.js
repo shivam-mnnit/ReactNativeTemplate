@@ -4,13 +4,14 @@
 
 import React from "react";
 import {Text, TouchableHighlight, View} from "react-native";
+import consts from '../const'
 
 
 export default class RepositoryListItem extends React.PureComponent {
 
   _onPress = () => {
     const {navigate} = this.props.navigation;
-    navigate('RepositoryDetails', {repository: this.props.repository})
+    navigate(consts.REPOSITORY_DETAILS_SCREEN, {repository: this.props.repository})
   };
 
   render() {
