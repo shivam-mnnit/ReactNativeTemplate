@@ -13,6 +13,7 @@ import HTML from "react-native-render-html";
 import showdown from "showdown";
 import strings from "../resources/strings";
 
+const converter = new showdown.Converter();
 
 export class RepositoryDetails extends Component {
   static navigationOptions = {
@@ -73,7 +74,7 @@ export class RepositoryDetails extends Component {
           {this.renderProgress()}
           <View style={detailsStyles.readMeStyle}>
             <HTML
-              html={new showdown.Converter().makeHtml(this.props.details.readMe)}
+              html={converter.makeHtml(this.props.details.readMe)}
               htmlStyles={styles}
               renderers={renderers}
             />

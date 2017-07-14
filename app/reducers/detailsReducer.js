@@ -14,8 +14,6 @@ export default function detailsReducer(state = initialState, action = {}) {
         readMe: action.readMe
       };
     default:
-      return {
-        ...state
-      }
+      return state
   }
 }

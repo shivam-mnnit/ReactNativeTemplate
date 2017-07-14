@@ -19,9 +19,6 @@ export default function loginReducer(state = initialState, action = {}) {
         data: action.page === 1 ? action.list : state.data.concat(action.list)
       };
     default:
-      return {
-        ...state
-      }
-
+      return state
   }
 }
