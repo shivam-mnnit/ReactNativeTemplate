@@ -4,6 +4,8 @@
 
 import { autoRehydrate, persistStore } from 'redux-persist-immutable'
 import { combineReducers } from 'redux-immutable';
+import createActionBuffer from 'redux-action-buffer'
+import {REHYDRATE} from 'redux-persist/constants'
 import Immutable from 'immutable';
 import { applyMiddleware, compose, createStore } from "redux";
 import { AsyncStorage } from "react-native";
@@ -26,11 +28,11 @@ const initialState = new Immutable.Map({
     }),
     login: Immutable.Map({
         isLoggedIn: false,
-        token: undefined,
-        loginError: undefined,
+        token: '',
+        loginError: {},
     }),
     list: Immutable.Map({
-        data: undefined,
+        data: [],
     }),
 });
 
@@ -39,7 +41,8 @@ export default function configureStore() {
     const store = createStore(
         combinedReducers,
         initialState,
-        compose(applyMiddleware(sagaMiddleware), autoRehydrate({log: true})));
+        compose(applyMiddleware(sagaMiddleware, createActionBuffer(REHYDRATE)), autoRehydrate({log: true})));
+
     persistStore(
         store,
         {
