@@ -12,12 +12,11 @@ export default function loginReducer(state, action = {}) {
                 .set('isLoggedIn', false)
                 .set('progress', false)
                 .set('loginError', action.error));
-        case actions.LOGIN_SUCCESS: {
+        case actions.LOGIN_SUCCESS:
             return state.withMutations(state => state
                 .set('isLoggedIn', true)
                 .set('progress', false)
                 .set('token', action.token.token));
-        }
         default:
             return state
     }

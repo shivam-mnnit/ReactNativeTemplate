@@ -75,6 +75,8 @@
   - Use renderToHardwareTextureAndroid
   - Do not perform any logic in componentWillMount()
   - Use useNativeDriver
+  - Don't use ```toJS()``` with immutable to avoid creation unnecessary object.
+ 
 16. Versioning: packadge.json - замораживаем версии библиотек на время жизни проекта.
 
 17. Use formatting tabulation of 2. Needs to be changed in WebStorm settings
@@ -82,4 +84,35 @@
 
 18. Add all component props to propTypes. It adds safety, shows you what props available, and allows IDEA/WebStorm to autocomplete them. https://facebook.github.io/react/docs/typechecking-with-proptypes.html
 
+19. Use ```redux-immutable``` to create immutable store.
+    [Redux FAQ: Immutable Data](http://redux.js.org/docs/faq/ImmutableData.html#redux-faq-immutable-data)
+    
+    ```js
+    import { combineReducers } from 'redux-immutable';
+    import loginReducer from "../reducers/loginReducer";
+    import rootReducer from "../reducers/rootReducer";
+    import listReducer from "../reducers/listReduser";
 
+    const combinedReducers = combineReducers({
+        root: rootReducer,
+        login: loginReducer,
+        list: listReducer,
+    });
+    ```
+    ```redux-persist``` can't work with immutable state. So we have to use ```redux-persist-immutable```.
+    ```js
+    import { autoRehydrate, persistStore } from 'redux-persist-immutable'
+    import { applyMiddleware, compose, createStore } from "redux";
+    const sagaMiddleware = createSagaMiddleware();
+    const store = createStore(
+        combinedReducers,
+        initialState,
+        compose(applyMiddleware(sagaMiddleware), autoRehydrate({log: true})));
+    persistStore(
+        store,
+        {
+            storage: AsyncStorage,
+            blacklist: ['root'],
+        }
+    );
+    ```

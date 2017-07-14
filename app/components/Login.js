@@ -15,6 +15,7 @@ import styles from "../resources/styles";
 import Toast from "@remobile/react-native-toast";
 
 export class Login extends Component {
+
     static navigationOptions = {
         header: null
     };
@@ -24,6 +25,14 @@ export class Login extends Component {
         this.password = "";
         this.email = "";
         this.isGoneAlready = false;
+    }
+
+    componentDidMount() {
+        this.props.dispatch({type: actions.PROGRESS, progress: false});
+    }
+
+    componentDidUpdate() {
+        this.proceed()
     }
 
     proceed() {
@@ -37,15 +46,6 @@ export class Login extends Component {
             this.props.navigation.navigate("RepositoriesList");
             this.isGoneAlready = true;
         }
-    }
-
-    componentDidMount() {
-        this.props.dispatch({type: actions.PROGRESS, progress: false})
-        this.proceed()
-    }
-
-    componentDidUpdate() {
-        this.proceed()
     }
 
     //noinspection JSMethodCanBeStatic
@@ -62,12 +62,12 @@ export class Login extends Component {
                         style={loginStyles.emailStyle}
                         color={colors.accentColor}/>
                     <ValidationTextInput
+                        secureTextEntry={true}
                         validate={(text) => this.validatePassword(text)}
                         onChangeText={(text) => this.password = text}
                         label={strings.password}
                         style={loginStyles.emailStyle}
                         color={colors.accentColor}/>
-
                     <Button
                         style={loginStyles.buttonStyle}
                         onPress={() => this.onLoginPress()}>
@@ -80,14 +80,20 @@ export class Login extends Component {
 
     renderProgress() {
         if (this.props.root.get('progress')) {
-            return ( <Spinner
-                color={colors.accentColor}
-                animating={true}
-                size={'large'}
-                style={styles.progressStyle}/>)
+            return this.spinner()
         } else {
             return null;
         }
+    }
+
+    spinner() {
+        return (
+            <Spinner
+                color={colors.accentColor}
+                animating={true}
+                size={'large'}
+                style={styles.progressStyle}/>
+        )
     }
 
     validateEmail(text) {

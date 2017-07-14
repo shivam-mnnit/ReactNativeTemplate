@@ -5,8 +5,8 @@
 import { autoRehydrate, persistStore } from 'redux-persist-immutable'
 import { combineReducers } from 'redux-immutable';
 import Immutable from 'immutable';
-import {applyMiddleware, compose, createStore} from "redux";
-import {AsyncStorage} from "react-native";
+import { applyMiddleware, compose, createStore } from "redux";
+import { AsyncStorage } from "react-native";
 import loginReducer from "../reducers/loginReducer";
 import rootReducer from "../reducers/rootReducer";
 import listReducer from "../reducers/listReduser";
@@ -17,26 +17,29 @@ import * as listSaga from "../saga/list-saga";
 const combinedReducers = combineReducers({
     root: rootReducer,
     login: loginReducer,
-    list: listReducer
+    list: listReducer,
 });
 
 const initialState = new Immutable.Map({
     root: Immutable.Map({
-        progress: false
+        progress: undefined,
     }),
     login: Immutable.Map({
         isLoggedIn: false,
-        token: '',
-        loginError: {}
+        token: undefined,
+        loginError: undefined,
     }),
     list: Immutable.Map({
-        data: [],
+        data: undefined,
     }),
 });
 
 export default function configureStore() {
     const sagaMiddleware = createSagaMiddleware();
-    const store = createStore(combinedReducers, initialState, compose(applyMiddleware(sagaMiddleware), autoRehydrate({log: true})));
+    const store = createStore(
+        combinedReducers,
+        initialState,
+        compose(applyMiddleware(sagaMiddleware), autoRehydrate({log: true})));
     persistStore(
         store,
         {
