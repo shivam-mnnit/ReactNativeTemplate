@@ -99,7 +99,7 @@
         list: listReducer,
     });
     ```
-    ```redux-persist``` can't work with immutable state. So we have to use ```redux-persist-immutable```.
+    ```redux-persist``` can't work with immutable state. So, we have to use ```redux-persist-immutable```.
     ```js
     import { autoRehydrate, persistStore } from 'redux-persist-immutable'
     import { applyMiddleware, compose, createStore } from "redux";
