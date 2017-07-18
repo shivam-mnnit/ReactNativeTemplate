@@ -40,6 +40,7 @@ export class RepositoriesList extends Component {
   _renderItem = ({item}) => (
     <RepositoryListItem
       id={item.id}
+      repository={item}
       title={item.full_name}
       description={item.description}
       navigation={this.props.navigation}

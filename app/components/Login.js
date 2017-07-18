@@ -38,7 +38,7 @@ export class Login extends Component {
       Toast.showShortBottom(this.props.login.loginError.message);
       this.props.dispatch({type: actions.LOGIN_ERROR, error: {}})
     } else if (isLoggedIn && !this.isGoneAlready) {
-      navigation.navigate("RepositoriesList");
+      navigation.navigate(consts.REPOSITORY_LIST_SCREEN);
       this.isGoneAlready = true;
     }
   }
