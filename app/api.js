@@ -65,13 +65,11 @@ export function logOut(authId, username, password) {
     .catch((error) => {
       console.log(error);
     });
-
-
-  function getAuthHeader(username, password) {
-    const baseString = Base64.btoa(`${username}:${password}`).replace('\n', '\\n');
-    return {
-      ...consts.BASE_HEADER,
-      "Authorization": `Basic ${baseString}`
-    }
+}
+function getAuthHeader(username, password) {
+  const baseString = Base64.btoa(`${username}:${password}`).replace('\n', '\\n');
+  return {
+    ...consts.BASE_HEADER,
+    "Authorization": `Basic ${baseString}`
   }
 }

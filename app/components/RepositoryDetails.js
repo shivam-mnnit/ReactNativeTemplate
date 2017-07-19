@@ -39,7 +39,7 @@ export class RepositoryDetails extends Component {
   dispatchReadme() {
     this.props.dispatch({
       type: actions.ACTION_README,
-      token: this.props.login.token,
+      token: this.props.login.get('token'),
       username: this.params.repository.owner.login,
       repository: this.params.repository.name
     });
@@ -50,7 +50,7 @@ export class RepositoryDetails extends Component {
   }
 
   handleError() {
-    const {detailsError} = this.props.details;
+    const detailsError = this.props.details.get('detailsError');
     if (detailsError && detailsError.message) {
       Toast.showShortBottom(detailsError.message);
       this.props.dispatch({type: actions.LOGIN_ERROR, error: {}})
@@ -60,6 +60,7 @@ export class RepositoryDetails extends Component {
 
   render() {
     showdown.setFlavor('github');
+    console.log('Details',this.props.details.get('readMe'));
     return (
       <Container style={{flexDirection: 'row'}}>
         <Content contentContainerStyle={detailsStyles.contentStyle}>
@@ -74,7 +75,7 @@ export class RepositoryDetails extends Component {
           {this.renderProgress()}
           <View style={detailsStyles.readMeStyle}>
             <HTML
-              html={converter.makeHtml(this.props.details.readMe)}
+              html={converter.makeHtml(this.props.details.get('readMe'))}
               htmlStyles={styles}
               renderers={renderers}
             />
@@ -85,7 +86,7 @@ export class RepositoryDetails extends Component {
   }
 
   renderProgress() {
-    if (this.props.root.progress) {
+    if (this.props.root.get('progress')) {
       return ( <Spinner
         color={colors.accentColor}
         animating={true}
@@ -158,10 +159,10 @@ const detailsStyles = {
 
 function mapStateToProps(state) {
   return {
-    login: state.login,
-    list: state.list,
-    root: state.root,
-    details: state.details
+    login: state.get('login'),
+    list: state.get('list'),
+    root: state.get('root'),
+    details: state.get('details')
   }
 }
 export default connect(mapStateToProps)(RepositoryDetails)

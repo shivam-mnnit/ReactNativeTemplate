@@ -8,7 +8,9 @@ import * as Api from "../api";
 function* authorize(username, password) {
   try {
     const token = yield call(Api.getAccessToken, username, password);
+    console.warn('Token',token)
     if (!token.message) {
+      console.warn('Success',token)
       yield put({type: actions.LOGIN_SUCCESS, token, username, password});
       return token;
     } else {

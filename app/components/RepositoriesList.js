@@ -68,7 +68,7 @@ export class RepositoriesList extends Component {
     const {listError} = list;
 
     const {navigation, login} = this.props;
-    const {isLoggedIn} = login;
+    const isLoggedIn = login.get('isLoggedIn');
     if (!isLoggedIn && !this.isGoneAlready) {
       navigation.navigate(consts.LOGIN_SCREEN);
       this.isGoneAlready = true;
@@ -137,7 +137,7 @@ export class RepositoriesList extends Component {
             />
           </Tabs>
           {this.renderProgress()}
-          {this.renderLogoutDialog()}
+          {this.renderLogOutDialog()}
         </Container>
       </StyleProvider>)
   }
@@ -174,9 +174,9 @@ export class RepositoriesList extends Component {
   dispatchLogOut() {
     this.props.dispatch({
       type: actions.LOGOUT_ACTION,
-      authId: this.props.login.authorizationId,
-      username: this.props.login.username,
-      password: this.props.login.password
+      authId: this.props.login.get('authorizationId'),
+      username: this.props.login.get('username'),
+      password: this.props.login.get('password')
     })
   }
 
