@@ -68,7 +68,7 @@ export class RepositoriesList extends Component {
     const {navigation, login} = this.props;
     const {isLoggedIn} = login;
     if (!isLoggedIn && !this.isGoneAlready) {
-      navigation.navigate("Login");
+      navigation.navigate(consts.LOGIN_SCREEN);
       this.isGoneAlready = true;
     }
 
@@ -82,7 +82,7 @@ export class RepositoriesList extends Component {
     this.props.navigation.setParams({
       showDialog: this.showDialog.bind(this)
     });
-    BackHandler.addEventListener('hardwareBackPress', () => {
+    BackHandler.addEventListener(consts.HARDWARE_PRESS_EVENT, () => {
       BackHandler.exitApp();
     });
     this.props.dispatch({
@@ -159,10 +159,10 @@ export class RepositoriesList extends Component {
             <Button transparent onPress={() => {
               this.dispatchLogOut();
               this.popupDialog.dismiss();
-            }}><Text style={repositoriesListStyles.dialogButtonTextStyle}>Ok</Text></Button>
+            }}><Text style={repositoriesListStyles.dialogButtonTextStyle}>{strings.ok}</Text></Button>
             <Button transparent onPress={() => {
               this.popupDialog.dismiss()
-            }}><Text style={repositoriesListStyles.dialogButtonTextStyle}>Cancel</Text></Button>
+            }}><Text style={repositoriesListStyles.dialogButtonTextStyle}>{strings.cancel}</Text></Button>
           </View>
         </View>
       </PopupDialog>);

@@ -13,5 +13,6 @@ export default {
   BASE_PAGE_LIMIT: 10,
   LOGIN_SCREEN: 'Login',
   REPOSITORY_LIST_SCREEN: 'RepositoryList',
-  REPOSITORY_DETAILS_SCREEN: 'RepositoryDetails'
+  REPOSITORY_DETAILS_SCREEN: 'RepositoryDetails',
+  HARDWARE_PRESS_EVENT:'hardwareBackPress',
 }

@@ -38,7 +38,6 @@ export default function loginReducer(state = initialState, action = {}) {
       };
     }
     case actions.LOGOUT_SUCCESS: {
-      console.warn('Logout')
       return {
         ...state,
         progress: false,
