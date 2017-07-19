@@ -134,33 +134,38 @@ export class RepositoriesList extends Component {
             />
           </Tabs>
           {this.renderProgress()}
-          <PopupDialog
-            width={width - dimens.margin_medium * 2}
-            dialogStyle={{height: 150}}
-            dialogAnimation={ new ScaleAnimation() }
-            dialogTitle={<DialogTitle titleTextStyle={{fontSize: 20, color: 'black'}} title="Log Out"/>}
-            ref={(popupDialog) => {
-              this.popupDialog = popupDialog;
-            }}>
-            <View style={{flexGrow: 1, alignItems: 'center'}}>
-              <Text style={repositoriesListStyles.dialogDescriptionStyle}>Are you sure you want to logout?</Text>
-              <View style={repositoriesListStyles.dialogButtonContainer}>
-                <Button transparent onPress={() => {
-                  this.dispatchLogOut();
-                  this.popupDialog.dismiss();
-                }}><Text style={repositoriesListStyles.dialogButtonTextStyle}>Ok</Text></Button>
-                <Button transparent onPress={() => {
-                  this.popupDialog.dismiss()
-                }}><Text style={repositoriesListStyles.dialogButtonTextStyle}>Cancel</Text></Button>
-              </View>
-            </View>
-          </PopupDialog>
+          {this.renderLogoutDialog()}
         </Container>
       </StyleProvider>)
   }
 
   showDialog() {
     this.popupDialog.show();
+  }
+
+  renderLogOutDialog() {
+    return (
+      <PopupDialog
+        width={width - dimens.margin_medium * 2}
+        dialogStyle={{height: 150}}
+        dialogAnimation={ new ScaleAnimation() }
+        dialogTitle={<DialogTitle titleTextStyle={repositoriesListStyles.dialogTitleTextStyle} title={strings.logout}/>}
+        ref={(popupDialog) => {
+          this.popupDialog = popupDialog;
+        }}>
+        <View style={repositoriesListStyles.dialogContainerStyle}>
+          <Text style={repositoriesListStyles.dialogDescriptionStyle}>{strings.logout_message}</Text>
+          <View style={repositoriesListStyles.dialogButtonContainer}>
+            <Button transparent onPress={() => {
+              this.dispatchLogOut();
+              this.popupDialog.dismiss();
+            }}><Text style={repositoriesListStyles.dialogButtonTextStyle}>Ok</Text></Button>
+            <Button transparent onPress={() => {
+              this.popupDialog.dismiss()
+            }}><Text style={repositoriesListStyles.dialogButtonTextStyle}>Cancel</Text></Button>
+          </View>
+        </View>
+      </PopupDialog>);
   }
 
   dispatchLogOut() {
@@ -231,6 +236,14 @@ const repositoriesListStyles = {
     color: colors.accentColor,
     fontSize: 20
   },
+  dialogContainerStyle: {
+    flexGrow: 1,
+    alignItems: 'center'
+  },
+  dialogTitleTextStyle: {
+    fontSize: 20,
+    color: 'black'
+  }
 };
 
 function mapStateToProps(state) {
