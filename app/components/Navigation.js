@@ -7,11 +7,13 @@ import configureStore from "../store/configureStore.js";
 import {StackNavigator} from "react-navigation";
 import Login from "./Login";
 import RepositoriesList from "./RepositoriesList";
+import RepositoryDetails from "./RepositoryDetails";
 
 const store = configureStore();
 const Routes = {
-    Login: {screen: Login},
-    RepositoriesList: {screen: RepositoriesList}
+  Login: {screen: Login},
+  RepositoriesList: {screen: RepositoriesList},
+  RepositoryDetails: {screen: RepositoryDetails}
 };
 const Navigator = StackNavigator(Routes, {
     headerMode: 'screen'

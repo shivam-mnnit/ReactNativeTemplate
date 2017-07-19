@@ -34,15 +34,14 @@ export class Login extends Component {
         const {navigation, login} = this.props;
         const {loginError, isLoggedIn} = login;
 
-        if (loginError && loginError.message) {
-            Toast.showShortBottom(this.props.login.loginError.message);
-            this.props.dispatch({type: actions.LOGIN_ERROR, error: {}})
-        }
-        if (isLoggedIn && !this.isGoneAlready) {
-            navigation.navigate("RepositoriesList");
-            this.isGoneAlready = true;
-        }
+    if (loginError && loginError.message) {
+      Toast.showShortBottom(this.props.login.loginError.message);
+      this.props.dispatch({type: actions.LOGIN_ERROR, error: {}})
+    } else if (isLoggedIn && !this.isGoneAlready) {
+      navigation.navigate(consts.REPOSITORY_LIST_SCREEN);
+      this.isGoneAlready = true;
     }
+  }
 
     //noinspection JSMethodCanBeStatic
     render() {

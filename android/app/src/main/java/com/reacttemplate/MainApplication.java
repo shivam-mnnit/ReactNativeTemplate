@@ -1,16 +1,13 @@
 package com.reacttemplate;
 
 import android.app.Application;
-import android.os.Build;
-import android.os.Handler;
-import android.os.StrictMode;
 
 import com.facebook.react.ReactApplication;
-import com.remobile.toast.RCTToastPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.remobile.toast.RCTToastPackage;
 
 import java.util.Arrays;
 import java.util.List;

@@ -51,14 +51,15 @@ export class RepositoriesList extends Component {
 
     _keyExtractor = (item, index) => item.id;
 
-    _renderItem = ({item}) => (
-        <RepositoryListItem
-            id={item.id}
-            title={item.full_name}
-            description={item.description}
-            navigation={this.props.navigation}
-        />
-    );
+  _renderItem = ({item}) => (
+    <RepositoryListItem
+      id={item.id}
+      repository={item}
+      title={item.full_name}
+      description={item.description}
+      navigation={this.props.navigation}
+    />
+  );
 
     componentDidUpdate() {
         const {list} = this.props;
@@ -92,73 +93,71 @@ export class RepositoriesList extends Component {
         });
     }
 
-    render() {
-        return (
-            <StyleProvider style={getTheme(material)}>
-                <Container
-                    shouldRasterizeIOS
-                    renderToHardwareTextureAndroid
-                    style={repositoriesListStyles.screenStyle}>
-                    <Tabs >
-                        <FlatList
-                            style={repositoriesListStyles.flatListStyle}
-                            data={this.props.list.data}
-                            heading={'Tab1'}
-                            onEndReachedThreshold={0.01}
-                            keyExtractor={this._keyExtractor}
-                            renderItem={this._renderItem}
-                            onEndReached={() => this.dispatchGetRepos() }
-                            ItemSeparatorComponent={() => <View style={repositoriesListStyles.itemSeparatorStyle}/>}
-                        />
+  render() {
+    return (
+      <StyleProvider style={getTheme(material)}>
+        <Container
+          shouldRasterizeIOS
+          renderToHardwareTextureAndroid
+          style={repositoriesListStyles.screenStyle}>
+          <Tabs >
+            <FlatList
+              style={repositoriesListStyles.flatListStyle}
+              data={this.props.list.data}
+              heading={strings.tab_1}
+              onEndReachedThreshold={0.01}
+              keyExtractor={this._keyExtractor}
+              renderItem={this._renderItem}
+              onEndReached={() => this.dispatchGetRepos() }
+              ItemSeparatorComponent={() => <View style={repositoriesListStyles.itemSeparatorStyle}/>}
+            />
 
-                        <FlatList
-                            style={repositoriesListStyles.flatListStyle}
-                            data={this.props.list.data}
-                            heading={'Tab2'}
-                            onEndReachedThreshold={0.01}
-                            keyExtractor={this._keyExtractor}
-                            renderItem={this._renderItem}
-                            onEndReached={() => this.dispatchGetRepos()}
-                            ItemSeparatorComponent={() => <View style={repositoriesListStyles.itemSeparatorStyle}/>}
-                        />
-                        <FlatList
-                            style={repositoriesListStyles.flatListStyle}
-                            data={this.props.list.data}
-                            heading={'Tab3'}
-                            keyExtractor={this._keyExtractor}
-                            renderItem={this._renderItem}
-                            onEndReachedThreshold={0.01}
-                            onEndReached={() => this.dispatchGetRepos()}
-                            ItemSeparatorComponent={() => <View style={repositoriesListStyles.itemSeparatorStyle}/>}
-                        />
-
-                    </Tabs>
-                    {this.renderProgress()}
-                    <PopupDialog
-                        width={width - dimens.margin_medium * 2}
-                        dialogStyle={{height: 150}}
-                        dialogAnimation={ new ScaleAnimation() }
-                        dialogTitle={<DialogTitle titleTextStyle={{fontSize: 20, color: 'black'}} title="Log Out"/>}
-                        ref={(popupDialog) => {
-                            this.popupDialog = popupDialog;
-                        }}>
-                        <View style={{flexGrow: 1, alignItems: 'center'}}>
-                            <Text style={repositoriesListStyles.dialogDescriptionStyle}>Are you sure you want to logout?</Text>
-                            <View style={repositoriesListStyles.dialogButtonContainer}>
-                                <Button transparent onPress={() => {
-                                    this.dispatchLogOut();
-                                    this.popupDialog.dismiss();
-                                }}><Text style={repositoriesListStyles.dialogButtonTextStyle}>Ok</Text></Button>
-                                <Button transparent onPress={() => {
-                                    this.popupDialog.dismiss()
-                                }}><Text style={repositoriesListStyles.dialogButtonTextStyle}>Cancel</Text></Button>
-                            </View>
-                        </View>
-                    </PopupDialog>
-                </Container>
-
-            </StyleProvider>)
-    }
+            <FlatList
+              style={repositoriesListStyles.flatListStyle}
+              data={this.props.list.data}
+              heading={strings.tab_2}
+              onEndReachedThreshold={0.01}
+              keyExtractor={this._keyExtractor}
+              renderItem={this._renderItem}
+              onEndReached={() => this.dispatchGetRepos()}
+              ItemSeparatorComponent={() => <View style={repositoriesListStyles.itemSeparatorStyle}/>}
+            />
+            <FlatList
+              style={repositoriesListStyles.flatListStyle}
+              data={this.props.list.data}
+              heading={strings.tab_3}
+              keyExtractor={this._keyExtractor}
+              renderItem={this._renderItem}
+              onEndReachedThreshold={0.01}
+              onEndReached={() => this.dispatchGetRepos()}
+              ItemSeparatorComponent={() => <View style={repositoriesListStyles.itemSeparatorStyle}/>}
+            />
+          </Tabs>
+          {this.renderProgress()}
+          <PopupDialog
+            width={width - dimens.margin_medium * 2}
+            dialogStyle={{height: 150}}
+            dialogAnimation={ new ScaleAnimation() }
+            dialogTitle={<DialogTitle titleTextStyle={{fontSize: 20, color: 'black'}} title="Log Out"/>}
+            ref={(popupDialog) => {
+              this.popupDialog = popupDialog;
+            }}>
+            <View style={{flexGrow: 1, alignItems: 'center'}}>
+              <Text style={repositoriesListStyles.dialogDescriptionStyle}>Are you sure you want to logout?</Text>
+              <View style={repositoriesListStyles.dialogButtonContainer}>
+                <Button transparent onPress={() => {
+                  this.dispatchLogOut();
+                  this.popupDialog.dismiss();
+                }}><Text style={repositoriesListStyles.dialogButtonTextStyle}>Ok</Text></Button>
+                <Button transparent onPress={() => {
+                  this.popupDialog.dismiss()
+                }}><Text style={repositoriesListStyles.dialogButtonTextStyle}>Cancel</Text></Button>
+              </View>
+            </View>
+          </PopupDialog>
+        </Container>
+      </StyleProvider>)
+  }
 
     showDialog() {
         this.popupDialog.show();
@@ -194,9 +193,10 @@ export class RepositoriesList extends Component {
         })
     }
 
-    getNextPage() {
-        return Math.round(this.props.list.data.length / consts.BASE_PAGE_LIMIT) + 1
-    }
+  getNextPage() {
+    return Math.ceil(this.props.list.data.length / consts.BASE_PAGE_LIMIT) + 1
+  }
+
 }
 
 const repositoriesListStyles = {

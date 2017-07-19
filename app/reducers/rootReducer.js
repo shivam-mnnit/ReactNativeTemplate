@@ -14,8 +14,6 @@ export default function loginReducer(state = initialState, action = {}) {
         progress: action.progress
       };
     default:
-      return {
-        ...state
-      }
+      return state
   }
 }

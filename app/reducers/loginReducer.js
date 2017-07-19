@@ -9,7 +9,8 @@ const initialState = {
     loginError: {},
     authorizationId: '',
     username: '',
-    password: ''
+    password: '',
+    user:{}
 };
 export default function loginReducer(state = initialState, action = {}) {
     switch (action.type) {
@@ -32,7 +33,8 @@ export default function loginReducer(state = initialState, action = {}) {
                 token: action.token.token,
                 authorizationId: action.token.id,
                 username: action.username,
-                password: action.password
+                password: action.password,
+                user: action.token
             };
         }
         case actions.LOGOUT_SUCCESS: {
