@@ -62,6 +62,9 @@ export function logOut(authId, username, password) {
     method: 'DELETE',
     headers: getAuthHeader(username, password)
   })
+    .then((user) => {
+      return user.json()
+    })
     .catch((error) => {
       console.log(error);
     });
