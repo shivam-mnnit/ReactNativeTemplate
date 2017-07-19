@@ -12,14 +12,19 @@ import { AsyncStorage } from "react-native";
 import loginReducer from "../reducers/loginReducer";
 import rootReducer from "../reducers/rootReducer";
 import listReducer from "../reducers/listReduser";
+import detailsReducer from "../reducers/detailsReducer";
 import createSagaMiddleware from "redux-saga";
 import * as loginSaga from "../saga/login-saga";
+import * as logoutSaga from "../saga/logout-saga";
 import * as listSaga from "../saga/list-saga";
+import * as detailsSaga from "../saga/details-saga";
+
 
 const combinedReducers = combineReducers({
-    root: rootReducer,
-    login: loginReducer,
-    list: listReducer,
+  root: rootReducer,
+  login: loginReducer,
+  list: listReducer,
+  details: detailsReducer
 });
 
 const initialState = new Immutable.Map({
@@ -50,5 +55,8 @@ export default function configureStore() {
             blacklist: ['root'],
         }
     );
-    return {...store, runSaga: [sagaMiddleware.run(loginSaga.loginFlow), sagaMiddleware.run(listSaga.listFlow)]};
+    return {...store, runSaga: [sagaMiddleware.run(loginSaga.loginFlow),
+      sagaMiddleware.run(listSaga.listFlow),
+      sagaMiddleware.run(detailsSaga.detailsFlow),
+      sagaMiddleware.run(logoutSaga.logoutFlow)]};
 }

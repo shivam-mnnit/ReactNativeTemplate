@@ -4,13 +4,14 @@
 
 import React from "react";
 import {Text, TouchableHighlight, View} from "react-native";
+import consts from "../const";
 
 
 export default class RepositoryListItem extends React.PureComponent {
 
   _onPress = () => {
     const {navigate} = this.props.navigation;
-    // navigate('Detail')
+    navigate(consts.REPOSITORY_DETAILS_SCREEN, {repository: this.props.repository})
   };
 
   render() {
@@ -34,7 +35,7 @@ const itemStyles = {
     borderRadius: 4,
     borderWidth: 1,
     flex: 1,
-    height:120,
+    height: 120,
     backgroundColor: 'white'
   },
   itemTitleStyle: {

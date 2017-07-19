@@ -10,5 +10,9 @@ export default {
     'Accept': 'application/vnd.github.v3.full+json',
     'Content-Type': 'application/json',
   },
-  BASE_PAGE_LIMIT:10
+  BASE_PAGE_LIMIT: 10,
+  LOGIN_SCREEN: 'Login',
+  REPOSITORY_LIST_SCREEN: 'RepositoryList',
+  REPOSITORY_DETAILS_SCREEN: 'RepositoryDetails',
+  HARDWARE_PRESS_EVENT:'hardwareBackPress',
 }

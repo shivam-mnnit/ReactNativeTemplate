@@ -17,6 +17,25 @@ export default function loginReducer(state, action = {}) {
                 .set('isLoggedIn', true)
                 .set('progress', false)
                 .set('token', action.token.token));
+  case actions.LOGOUT_SUCCESS: {
+    return {
+      ...state,
+      progress: false,
+      isLoggedIn: false,
+      token: '',
+      authorizationId: '',
+      username: '',
+      password: ''
+    };
+  }
+  case actions.LOGOUT_ERROR: {
+    return {
+      ...state,
+      isLoggedIn: true,
+      progress: false,
+      loginError: action.error
+    };
+  }
         default:
             return state
     }

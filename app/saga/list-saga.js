@@ -6,9 +6,9 @@ import * as actions from "../actions/action-types";
 import * as Api from "../api";
 
 
-function* getList(username, page, limit) {
+function* getList(token, page, limit) {
   try {
-    const list = yield call(Api.getRepositories, username, page, limit);
+    const list = yield call(Api.getRepositories, token, page, limit);
     if (!list.message) {
       yield put({type: actions.ACTION_LIST_SUCCESS, list: list, page: page});
       return list;
@@ -23,10 +23,9 @@ function* getList(username, page, limit) {
 
 export function* listFlow() {
   while (true) {
-    const {username, page, limit} = yield take(actions.ACTION_REPOSITORIES_LIST);
-    console.log(username + "  " + page + "  " + limit);
+    const {token, page, limit} = yield take(actions.ACTION_REPOSITORIES_LIST);
     yield put({type: actions.PROGRESS, progress: true});
-    const list = yield  call(getList, username, page, limit);
+    const list = yield  call(getList, token, page, limit);
     yield put({type: actions.PROGRESS, progress: false});
   }
 }

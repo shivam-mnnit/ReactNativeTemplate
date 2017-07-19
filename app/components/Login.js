@@ -12,7 +12,7 @@ import dimens from "../resources/dimens";
 import strings from "../resources/strings";
 import * as actions from "../actions/action-types";
 import styles from "../resources/styles";
-import Toast from "@remobile/react-native-toast";
+import Toast from "react-native-toast";
 
 export class Login extends Component {
 
@@ -27,9 +27,9 @@ export class Login extends Component {
         this.isGoneAlready = false;
     }
 
-    componentDidMount() {
-        this.props.dispatch({type: actions.PROGRESS, progress: false});
-    }
+  componentDidMount() {
+    this.props.dispatch({type: actions.PROGRESS, progress: false})
+  }
 
     componentDidUpdate() {
         this.proceed()
@@ -41,14 +41,14 @@ export class Login extends Component {
 
         console.log("ddd" + this.props.login.get('token'));
 
-        if (loginError && loginError.message) {
-            Toast.showShortBottom(loginError.message);
-            this.props.dispatch({type: actions.LOGIN_ERROR, error: {}})
-        } else if (isLoggedIn && !this.isGoneAlready) {
-            this.props.navigation.navigate("RepositoriesList");
-            this.isGoneAlready = true;
-        }
+    if (loginError && loginError.message) {
+      Toast.showShortBottom(this.props.login.loginError.message);
+      this.props.dispatch({type: actions.LOGIN_ERROR, error: {}})
+    } else if (isLoggedIn && !this.isGoneAlready) {
+      navigation.navigate(consts.REPOSITORY_LIST_SCREEN);
+      this.isGoneAlready = true;
     }
+  }
 
     //noinspection JSMethodCanBeStatic
     render() {

@@ -3,8 +3,8 @@
  */
 
 import React, {Component} from "react";
-import {BackHandler, FlatList, View} from "react-native";
-import {Container, Spinner, StyleProvider, Tabs} from "native-base";
+import {BackHandler, Dimensions, FlatList, Text, TouchableOpacity, View} from "react-native";
+import {Button, Container, Spinner, StyleProvider, Tabs} from "native-base";
 import RepositoryListItem from "./RepositoryListItem";
 import colors from "../resources/colors";
 import * as actions from "../actions/action-types";
@@ -14,19 +14,32 @@ import strings from "../resources/strings";
 import getTheme from "../native_theme/components";
 import styles from "../resources/styles";
 import consts from "../const";
+import dimens from "../resources/dimens";
+import PopupDialog, {DialogTitle, ScaleAnimation} from "react-native-popup-dialog";
 import * as Toast from "@remobile/react-native-toast/index";
 
+const {height, width} = Dimensions.get('window');
 export class RepositoriesList extends Component {
 
-  static navigationOptions = {
-    title: strings.list_title,
-    headerLeft: null,
-    headerTintColor: 'white',
-    headerTitleStyle: {
-      color: 'white'
-    },
-    headerStyle: {
-      backgroundColor: colors.primaryColor
+
+  static navigationOptions = ({navigation, screenProps}) => {
+    return {
+      headerRight: (
+        <TouchableOpacity onPress={() => {
+          navigation.state.params.showDialog();
+        }}>
+          <Text style={repositoriesListStyles.logOutTextStyle}>{strings.logout}</Text>
+        </TouchableOpacity>
+      ),
+      title: strings.list_title,
+      headerLeft: null,
+      headerTintColor: 'white',
+      headerTitleStyle: {
+        color: 'white'
+      },
+      headerStyle: {
+        backgroundColor: colors.primaryColor
+      }
     }
   };
 
@@ -35,6 +48,7 @@ export class RepositoriesList extends Component {
     this.state = {
       page: 1,
     }
+    this.popupDialog = {}
   }
 
   _keyExtractor = (item, index) => item.id;
@@ -42,6 +56,7 @@ export class RepositoriesList extends Component {
   _renderItem = ({item}) => (
     <RepositoryListItem
       id={item.id}
+      repository={item}
       title={item.full_name}
       description={item.description}
       navigation={this.props.navigation}
@@ -52,6 +67,13 @@ export class RepositoriesList extends Component {
     const {list} = this.props;
     const {listError} = list;
 
+    const {navigation, login} = this.props;
+    const {isLoggedIn} = login;
+    if (!isLoggedIn && !this.isGoneAlready) {
+      navigation.navigate(consts.LOGIN_SCREEN);
+      this.isGoneAlready = true;
+    }
+
     if (listError && listError.message) {
       Toast.showShortBottom(this.props.login.get('loginError').message);
       this.props.dispatch({type: actions.ACTION_LIST_ERROR, error: {}})
@@ -59,13 +81,16 @@ export class RepositoriesList extends Component {
   }
 
   componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', () => {
+    this.props.navigation.setParams({
+      showDialog: this.showDialog.bind(this)
+    });
+    BackHandler.addEventListener(consts.HARDWARE_PRESS_EVENT, () => {
       BackHandler.exitApp();
     });
     console.log(this.props.login);
     this.props.dispatch({
       type: actions.ACTION_REPOSITORIES_LIST,
-      username: this.props.login.get('token'),
+      token: this.props.login.get('token'),
       page: 1,
       limit: consts.BASE_PAGE_LIMIT
     });
@@ -112,8 +137,47 @@ export class RepositoriesList extends Component {
             />
           </Tabs>
           {this.renderProgress()}
+          {this.renderLogoutDialog()}
         </Container>
       </StyleProvider>)
+  }
+
+  showDialog() {
+    this.popupDialog.show();
+  }
+
+  renderLogOutDialog() {
+    return (
+      <PopupDialog
+        width={width - dimens.margin_medium * 2}
+        dialogStyle={{height: 150}}
+        dialogAnimation={ new ScaleAnimation() }
+        dialogTitle={<DialogTitle titleTextStyle={repositoriesListStyles.dialogTitleTextStyle} title={strings.logout}/>}
+        ref={(popupDialog) => {
+          this.popupDialog = popupDialog;
+        }}>
+        <View style={repositoriesListStyles.dialogContainerStyle}>
+          <Text style={repositoriesListStyles.dialogDescriptionStyle}>{strings.logout_message}</Text>
+          <View style={repositoriesListStyles.dialogButtonContainer}>
+            <Button transparent onPress={() => {
+              this.dispatchLogOut();
+              this.popupDialog.dismiss();
+            }}><Text style={repositoriesListStyles.dialogButtonTextStyle}>{strings.ok}</Text></Button>
+            <Button transparent onPress={() => {
+              this.popupDialog.dismiss()
+            }}><Text style={repositoriesListStyles.dialogButtonTextStyle}>{strings.cancel}</Text></Button>
+          </View>
+        </View>
+      </PopupDialog>);
+  }
+
+  dispatchLogOut() {
+    this.props.dispatch({
+      type: actions.LOGOUT_ACTION,
+      authId: this.props.login.authorizationId,
+      username: this.props.login.username,
+      password: this.props.login.password
+    })
   }
 
   renderProgress() {
@@ -131,7 +195,7 @@ export class RepositoriesList extends Component {
   dispatchGetRepos() {
     this.props.dispatch({
       type: actions.ACTION_REPOSITORIES_LIST,
-      username: this.props.login.get('token'),
+      token: this.props.login.get('token'),
       page: this.getNextPage(),
       limit: consts.BASE_PAGE_LIMIT,
     })
@@ -154,6 +218,34 @@ const repositoriesListStyles = {
     flex: 1,
     height: 1,
     backgroundColor: 'grey',
+  },
+  logOutTextStyle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'white',
+    marginRight: 16
+  },
+  dialogDescriptionStyle: {
+    flexGrow: 1,
+    fontSize: 16
+  },
+  dialogButtonContainer: {
+    flexGrow: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignSelf: 'flex-end'
+  },
+  dialogButtonTextStyle: {
+    color: colors.accentColor,
+    fontSize: 20
+  },
+  dialogContainerStyle: {
+    flexGrow: 1,
+    alignItems: 'center'
+  },
+  dialogTitleTextStyle: {
+    fontSize: 20,
+    color: 'black'
   }
 };
 
