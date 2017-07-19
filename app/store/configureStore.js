@@ -25,7 +25,7 @@ const combinedReducers = combineReducers({
 export default function configureStore() {
   const sagaMiddleware = createSagaMiddleware();
   store = createStore(combinedReducers, compose(applyMiddleware(sagaMiddleware), autoRehydrate()));
-  persistStore(store, {storage: AsyncStorage, blacklist: ['root','details']});
+  persistStore(store, {storage: AsyncStorage, blacklist: ['root', 'details']});
   return {
     ...store, runSaga: [sagaMiddleware.run(loginSaga.loginFlow),
       sagaMiddleware.run(listSaga.listFlow),

@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Content, Input, Item, Label, Text} from "native-base";
 import strings from "../resources/strings";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 export default class ValidationTextInput extends Component {
 

@@ -2,8 +2,8 @@
  * Created by ihor_kucherenko on 6/28/17.
  */
 import React, {Component} from "react";
-import {BackHandler, FlatList, View, TouchableOpacity, Text, Dimensions} from "react-native";
-import {Container, Spinner, StyleProvider, Tabs, Button} from "native-base";
+import {BackHandler, Dimensions, FlatList, Text, TouchableOpacity, View} from "react-native";
+import {Button, Container, Spinner, StyleProvider, Tabs} from "native-base";
 import RepositoryListItem from "./RepositoryListItem";
 import colors from "../resources/colors";
 import * as actions from "../actions/action-types";
@@ -13,43 +13,43 @@ import strings from "../resources/strings";
 import getTheme from "../native_theme/components";
 import styles from "../resources/styles";
 import consts from "../const";
-import dimens from "../resources/dimens"
+import dimens from "../resources/dimens";
 import PopupDialog, {DialogTitle, ScaleAnimation} from "react-native-popup-dialog";
 
 const {height, width} = Dimensions.get('window');
 export class RepositoriesList extends Component {
 
 
-    static navigationOptions = ({navigation, screenProps}) => {
-        return {
-            headerRight: (
-                <TouchableOpacity onPress={() => {
-                    navigation.state.params.showDialog();
-                }}>
-                    <Text style={repositoriesListStyles.logOutTextStyle}>{strings.logout}</Text>
-                </TouchableOpacity>
-            ),
-            title: strings.list_title,
-            headerLeft: null,
-            headerTintColor: 'white',
-            headerTitleStyle: {
-                color: 'white'
-            },
-            headerStyle: {
-                backgroundColor: colors.primaryColor
-            }
-        }
-    };
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            page: 1,
-        }
-        this.popupDialog = {}
+  static navigationOptions = ({navigation, screenProps}) => {
+    return {
+      headerRight: (
+        <TouchableOpacity onPress={() => {
+          navigation.state.params.showDialog();
+        }}>
+          <Text style={repositoriesListStyles.logOutTextStyle}>{strings.logout}</Text>
+        </TouchableOpacity>
+      ),
+      title: strings.list_title,
+      headerLeft: null,
+      headerTintColor: 'white',
+      headerTitleStyle: {
+        color: 'white'
+      },
+      headerStyle: {
+        backgroundColor: colors.primaryColor
+      }
     }
+  };
 
-    _keyExtractor = (item, index) => item.id;
+  constructor(props) {
+    super(props);
+    this.state = {
+      page: 1,
+    }
+    this.popupDialog = {}
+  }
+
+  _keyExtractor = (item, index) => item.id;
 
   _renderItem = ({item}) => (
     <RepositoryListItem
@@ -61,37 +61,37 @@ export class RepositoriesList extends Component {
     />
   );
 
-    componentDidUpdate() {
-        const {list} = this.props;
-        const {listError} = list;
+  componentDidUpdate() {
+    const {list} = this.props;
+    const {listError} = list;
 
-        const {navigation, login} = this.props;
-        const {isLoggedIn} = login;
-        if (!isLoggedIn && !this.isGoneAlready) {
-            navigation.navigate("Login");
-            this.isGoneAlready = true;
-        }
-
-        if (listError && listError.message) {
-            Toast.showShortBottom(this.props.login.loginError.message);
-            this.props.dispatch({type: actions.ACTION_LIST_ERROR, error: {}})
-        }
+    const {navigation, login} = this.props;
+    const {isLoggedIn} = login;
+    if (!isLoggedIn && !this.isGoneAlready) {
+      navigation.navigate("Login");
+      this.isGoneAlready = true;
     }
 
-    componentDidMount() {
-        this.props.navigation.setParams({
-            showDialog: this.showDialog.bind(this)
-        });
-        BackHandler.addEventListener('hardwareBackPress', () => {
-            BackHandler.exitApp();
-        });
-        this.props.dispatch({
-            type: actions.ACTION_REPOSITORIES_LIST,
-            token: this.props.login.token,
-            page: 1,
-            limit: consts.BASE_PAGE_LIMIT
-        });
+    if (listError && listError.message) {
+      Toast.showShortBottom(this.props.login.loginError.message);
+      this.props.dispatch({type: actions.ACTION_LIST_ERROR, error: {}})
     }
+  }
+
+  componentDidMount() {
+    this.props.navigation.setParams({
+      showDialog: this.showDialog.bind(this)
+    });
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      BackHandler.exitApp();
+    });
+    this.props.dispatch({
+      type: actions.ACTION_REPOSITORIES_LIST,
+      token: this.props.login.token,
+      page: 1,
+      limit: consts.BASE_PAGE_LIMIT
+    });
+  }
 
   render() {
     return (
@@ -159,39 +159,39 @@ export class RepositoriesList extends Component {
       </StyleProvider>)
   }
 
-    showDialog() {
-        this.popupDialog.show();
-    }
+  showDialog() {
+    this.popupDialog.show();
+  }
 
-    dispatchLogOut() {
-        this.props.dispatch({
-            type: actions.LOGOUT_ACTION,
-            authId: this.props.login.authorizationId,
-            username: this.props.login.username,
-            password: this.props.login.password
-        })
-    }
+  dispatchLogOut() {
+    this.props.dispatch({
+      type: actions.LOGOUT_ACTION,
+      authId: this.props.login.authorizationId,
+      username: this.props.login.username,
+      password: this.props.login.password
+    })
+  }
 
-    renderProgress() {
-        if (this.props.root.progress) {
-            return ( <Spinner
-                color={colors.accentColor}
-                animating={true}
-                size={'large'}
-                style={styles.progressStyle}/>)
-        } else {
-            return null;
-        }
+  renderProgress() {
+    if (this.props.root.progress) {
+      return ( <Spinner
+        color={colors.accentColor}
+        animating={true}
+        size={'large'}
+        style={styles.progressStyle}/>)
+    } else {
+      return null;
     }
+  }
 
-    dispatchGetRepos() {
-        this.props.dispatch({
-            type: actions.ACTION_REPOSITORIES_LIST,
-            token: this.props.login.token,
-            page: this.getNextPage(),
-            limit: consts.BASE_PAGE_LIMIT,
-        })
-    }
+  dispatchGetRepos() {
+    this.props.dispatch({
+      type: actions.ACTION_REPOSITORIES_LIST,
+      token: this.props.login.token,
+      page: this.getNextPage(),
+      limit: consts.BASE_PAGE_LIMIT,
+    })
+  }
 
   getNextPage() {
     return Math.ceil(this.props.list.data.length / consts.BASE_PAGE_LIMIT) + 1
@@ -200,44 +200,44 @@ export class RepositoriesList extends Component {
 }
 
 const repositoriesListStyles = {
-    flatListStyle: {},
-    screenStyle: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        backgroundColor: colors.primaryColor
-    },
-    itemSeparatorStyle: {
-        flex: 1,
-        height: 1,
-        backgroundColor: 'grey',
-    },
-    logOutTextStyle: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: 'white',
-        marginRight: 16
-    },
-    dialogDescriptionStyle: {
-        flexGrow: 1,
-        fontSize: 16
-    },
-    dialogButtonContainer: {
-        flexGrow: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        alignSelf: 'flex-end'
-    },
-    dialogButtonTextStyle: {
-        color: colors.accentColor,
-        fontSize: 20
-    },
+  flatListStyle: {},
+  screenStyle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: colors.primaryColor
+  },
+  itemSeparatorStyle: {
+    flex: 1,
+    height: 1,
+    backgroundColor: 'grey',
+  },
+  logOutTextStyle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'white',
+    marginRight: 16
+  },
+  dialogDescriptionStyle: {
+    flexGrow: 1,
+    fontSize: 16
+  },
+  dialogButtonContainer: {
+    flexGrow: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignSelf: 'flex-end'
+  },
+  dialogButtonTextStyle: {
+    color: colors.accentColor,
+    fontSize: 20
+  },
 };
 
 function mapStateToProps(state) {
-    return {
-        login: state.login,
-        list: state.list,
-        root: state.root
-    }
+  return {
+    login: state.login,
+    list: state.list,
+    root: state.root
+  }
 }
 export default connect(mapStateToProps)(RepositoriesList)

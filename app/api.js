@@ -64,14 +64,15 @@ export function getAccessToken(username, password) {
 }
 
 export function logOut(authId, username, password) {
-    baseString = Base64.btoa(username + ':' + password).replace('\n', '\\n');
-    return fetch(`https://api.github.com/authorizations/${authId}`, {
-        method: 'DELETE',
-        headers: {
-            ...consts.BASE_HEADER,
-            "Authorization": "Basic " + baseString
-        }})
-        .catch((error) => {
-            console.log(error);
-        });
+  baseString = Base64.btoa(username + ':' + password).replace('\n', '\\n');
+  return fetch(`https://api.github.com/authorizations/${authId}`, {
+    method: 'DELETE',
+    headers: {
+      ...consts.BASE_HEADER,
+      "Authorization": "Basic " + baseString
+    }
+  })
+    .catch((error) => {
+      console.log(error);
+    });
 }
