@@ -19,6 +19,7 @@ function* getReadMe(token, username, repository) {
   try {
     const readMe = yield call(Api.getReadMe, token, username, repository);
     if (!readMe.message) {
+      console.warn(readMe);
       yield call(dispatchReadmeSuccess, readMe);
       return token;
     } else {

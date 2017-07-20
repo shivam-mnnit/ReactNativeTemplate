@@ -40,7 +40,6 @@ export class Login extends Component {
     const isLoggedIn = this.props.login.get('isLoggedIn');
 
     console.log("ddd" + this.props.login.get('token'));
-    console.warn('Go Forward', this.i)
     if (loginError && loginError.message) {
       Toast.showShortBottom(loginError.message);
       this.props.dispatch({type: actions.LOGIN_ERROR, error: {}})

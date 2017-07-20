@@ -63,7 +63,7 @@ export function logOut(authId, username, password) {
     headers: getAuthHeader(username, password)
   })
     .then((user) => {
-      return user.json()
+      return  user.json();
     })
     .catch((error) => {
       console.log(error);

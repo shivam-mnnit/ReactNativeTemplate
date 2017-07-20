@@ -35,6 +35,9 @@ const initialState = new Immutable.Map({
     isLoggedIn: false,
     token: '',
     loginError: {},
+    username:'',
+    password:'',
+    authorizationId:''
   }),
   list: Immutable.Map({
     data: [],

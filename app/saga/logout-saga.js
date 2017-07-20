@@ -8,16 +8,12 @@ import * as Api from "../api";
 function* logOut(authId, username, password) {
   try {
     const result = yield call(Api.logOut, authId, username, password);
-
-    if (result.message) {
+    if (!result) {
       yield put({type: actions.LOGOUT_SUCCESS});
-      return result;
     } else {
-      yield put({type: actions.LOGOUT_ERROR, error: "Unknown Error"});
-      return undefined;
+      yield put({type: actions.LOGOUT_ERROR, error: result.message});
     }
   } catch (error) {
-    console.log(error);
     yield put({type: actions.LOGOUT_ERROR, error});
   }
 }

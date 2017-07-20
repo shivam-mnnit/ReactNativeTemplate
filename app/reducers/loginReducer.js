@@ -14,6 +14,9 @@ export default function loginReducer(state, action = {}) {
       return state.withMutations(state => state
         .set('isLoggedIn', true)
         .set('progress', false)
+        .set('authorizationId', action.token.id)
+        .set('username', action.username)
+        .set('password', action.password)
         .set('token', action.token.token));
     case actions.LOGOUT_SUCCESS: {
       return state.withMutations(state => state
@@ -26,7 +29,6 @@ export default function loginReducer(state, action = {}) {
         .set('password', ''));
     }
     case actions.LOGOUT_ERROR: {
-      return
       return state.withMutations(state => state
         .set('progress', false)
         .set('isLoggedIn', false)
