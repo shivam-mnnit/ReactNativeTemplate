@@ -4,25 +4,28 @@
 import {call, put, take} from "redux-saga/effects";
 import * as actions from "../actions/action-types";
 import * as Api from "../api";
+import * as logoutActions from "../actions/logout-actions";
+import * as rootActions from "../actions/root-actions";
+
 
 function* logOut(authId, username, password) {
   try {
     const result = yield call(Api.logOut, authId, username, password);
     if (!result) {
-      yield put({type: actions.LOGOUT_SUCCESS});
+      yield put(logoutActions.setLogoutSuccess());
     } else {
-      yield put({type: actions.LOGOUT_ERROR, error: result.message});
+      yield put(logoutActions.setError(result)); 
     }
   } catch (error) {
-    yield put({type: actions.LOGOUT_ERROR, error});
+    yield put(logoutActions.setError(error));
   }
 }
 
 export function* logoutFlow() {
   while (true) {
     const {username, password, authId} = yield take(actions.LOGOUT_ACTION);
-    yield put({type: actions.PROGRESS, progress: true});
+    yield put(rootActions.controlProgress(true));
     yield call(logOut, authId, username, password);
-    yield put({type: actions.PROGRESS, progress: false});
+    yield put(rootActions.controlProgress(false));
   }
 }

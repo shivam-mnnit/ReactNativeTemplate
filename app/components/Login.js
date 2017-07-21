@@ -13,6 +13,8 @@ import strings from "../resources/strings";
 import * as actions from "../actions/action-types";
 import styles from "../resources/styles";
 import * as Toast from "@remobile/react-native-toast";
+import * as loginActions from "../actions/login-actions";
+import * as rootActions from "../actions/root-actions";
 
 export class Login extends Component {
 
@@ -28,7 +30,7 @@ export class Login extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch({type: actions.PROGRESS, progress: false})
+    this.props.dispatch(rootActions.controlProgress(false))
   }
 
   componentDidUpdate() {
@@ -41,7 +43,7 @@ export class Login extends Component {
 
     if (loginError && loginError.message) {
       Toast.showShortBottom(loginError.message);
-      this.props.dispatch({type: actions.LOGIN_ERROR, error: {}})
+      this.props.dispatch(loginActions.setError({}))
     } else if (isLoggedIn && !this.isGoneAlready) {
       this.props.navigation.navigate(consts.REPOSITORY_LIST_SCREEN);
       this.isGoneAlready = true;
@@ -106,7 +108,7 @@ export class Login extends Component {
   }
 
   onLoginPress() {
-    this.props.dispatch({type: actions.LOGIN_ACTION, username: this.email, password: this.password})
+    this.props.dispatch(loginActions.login(this.email, this.password))
   }
 }
 

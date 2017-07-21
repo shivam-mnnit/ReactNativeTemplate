@@ -7,7 +7,6 @@ import {BackHandler, Dimensions, FlatList, Text, TouchableOpacity, View} from "r
 import {Button, Container, Spinner, StyleProvider, Tabs} from "native-base";
 import RepositoryListItem from "./RepositoryListItem";
 import colors from "../resources/colors";
-import * as actions from "../actions/action-types";
 import material from "../native_theme/variables/material";
 import {connect} from "react-redux";
 import strings from "../resources/strings";
@@ -17,6 +16,8 @@ import consts from "../const";
 import dimens from "../resources/dimens";
 import PopupDialog, {DialogTitle, ScaleAnimation} from "react-native-popup-dialog";
 import * as Toast from "@remobile/react-native-toast/index";
+import * as listActions from "../actions/list-actions";
+import * as logoutActions from "../actions/logout-actions";
 
 const {height, width} = Dimensions.get('window');
 export class RepositoriesList extends Component {
@@ -47,7 +48,7 @@ export class RepositoriesList extends Component {
     super(props);
     this.state = {
       page: 1,
-    }
+    };
     this.popupDialog = {}
   }
 
@@ -76,7 +77,7 @@ export class RepositoriesList extends Component {
 
     if (listError && listError.message) {
       Toast.showShortBottom(this.props.login.get('loginError').message);
-      this.props.dispatch({type: actions.ACTION_LIST_ERROR, error: {}})
+      this.props.dispatch(listActions.setError({}))
     }
   }
 
@@ -87,13 +88,7 @@ export class RepositoriesList extends Component {
     BackHandler.addEventListener(consts.HARDWARE_PRESS_EVENT, () => {
       BackHandler.exitApp();
     });
-    console.log(this.props.login);
-    this.props.dispatch({
-      type: actions.ACTION_REPOSITORIES_LIST,
-      token: this.props.login.get('token'),
-      page: 1,
-      limit: consts.BASE_PAGE_LIMIT
-    });
+    this.props.dispatch(listActions.getList(this.props.login.get('token'), 1, consts.BASE_PAGE_LIMIT));
   }
 
   render() {
@@ -172,12 +167,11 @@ export class RepositoriesList extends Component {
   }
 
   dispatchLogOut() {
-    this.props.dispatch({
-      type: actions.LOGOUT_ACTION,
-      authId: this.props.login.get('authorizationId'),
-      username: this.props.login.get('username'),
-      password: this.props.login.get('password')
-    })
+    this.props.dispatch(logoutActions.logout(
+      this.props.login.get('authorizationId'),
+      this.props.login.get('username'),
+      this.props.login.get('password'))
+    )
   }
 
   renderProgress() {
@@ -193,12 +187,10 @@ export class RepositoriesList extends Component {
   }
 
   dispatchGetRepos() {
-    this.props.dispatch({
-      type: actions.ACTION_REPOSITORIES_LIST,
-      token: this.props.login.get('token'),
-      page: this.getNextPage(),
-      limit: consts.BASE_PAGE_LIMIT,
-    })
+    this.props.dispatch(listActions.getList(
+      this.props.login.get('token'),
+      this.getNextPage(),
+      consts.BASE_PAGE_LIMIT));
   }
 
   getNextPage() {

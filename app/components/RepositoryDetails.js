@@ -6,12 +6,12 @@ import {Image, Text, View} from "react-native";
 import {Container, Content, Spinner} from "native-base";
 import colors from "../resources/colors";
 import {connect} from "react-redux";
-import * as actions from "../actions/action-types";
 import dimens from "../resources/dimens";
 import styles from "../resources/styles";
 import HTML from "react-native-render-html";
 import showdown from "showdown";
 import strings from "../resources/strings";
+import * as detailsActions from "../actions/details-actions";
 
 const converter = new showdown.Converter();
 
@@ -37,12 +37,10 @@ export class RepositoryDetails extends Component {
   }
 
   dispatchReadme() {
-    this.props.dispatch({
-      type: actions.ACTION_README,
-      token: this.props.login.get('token'),
-      username: this.params.repository.owner.login,
-      repository: this.params.repository.name
-    });
+    this.props.dispatch(detailsActions.getReadMe(
+      this.props.login.get('token'),
+      this.params.repository.owner.login,
+      this.params.repository.name));
   }
 
   componentDidUpdate() {
@@ -53,14 +51,13 @@ export class RepositoryDetails extends Component {
     const detailsError = this.props.details.get('detailsError');
     if (detailsError && detailsError.message) {
       Toast.showShortBottom(detailsError.message);
-      this.props.dispatch({type: actions.LOGIN_ERROR, error: {}})
+      this.props.dispatch(detailsActions.setError({}))
     }
   }
 
 
   render() {
     showdown.setFlavor('github');
-    console.log('Details',this.props.details.get('readMe'));
     return (
       <Container style={{flexDirection: 'row'}}>
         <Content contentContainerStyle={detailsStyles.contentStyle}>
