@@ -7,16 +7,23 @@ const initialState = {
   isLoggedIn: false,
   token: '',
   loginError: {},
+  authorizationId: '',
+  username: '',
+  password: '',
   user: {}
 };
 export default function loginReducer(state = initialState, action = {}) {
   switch (action.type) {
     case actions.LOGIN_ERROR:
+      console.log('Catch error');
+      console.log(action);
       return {
         ...state,
         isLoggedIn: false,
         progress: false,
-        loginError: action.error
+        loginError: action.error,
+        username: '',
+        password: ''
       };
     case actions.LOGIN_SUCCESS: {
       return {
@@ -24,7 +31,29 @@ export default function loginReducer(state = initialState, action = {}) {
         progress: false,
         isLoggedIn: true,
         token: action.token.token,
+        authorizationId: action.token.id,
+        username: action.username,
+        password: action.password,
         user: action.token
+      };
+    }
+    case actions.LOGOUT_SUCCESS: {
+      return {
+        ...state,
+        progress: false,
+        isLoggedIn: false,
+        token: '',
+        authorizationId: '',
+        username: '',
+        password: ''
+      };
+    }
+    case actions.LOGOUT_ERROR: {
+      return {
+        ...state,
+        isLoggedIn: true,
+        progress: false,
+        loginError: action.error
       };
     }
     default:

@@ -31,10 +31,7 @@ export function getReadMe(token, username, repository) {
   });
   return fetch(`https://api.github.com/repos/${username}/${repository}/readme?${params}`, {
     method: 'GET',
-    headers: {
-      'Accept': 'application/vnd.github.v3.full+json',
-      'Content-Type': 'application/json',
-    }
+    headers: consts.BASE_HEADER
   }).then((readMe) => {
     return readMe.json()
   })
@@ -45,13 +42,10 @@ export function getReadMe(token, username, repository) {
 
 
 export function getAccessToken(username, password) {
-  const baseString = Base64.btoa(`${username}:${password}`).replace('\n', '\\n');
+
   return fetch(`https://api.github.com/authorizations/clients/${consts.CLIENT_ID}`, {
     method: 'PUT',
-    headers: {
-      ...consts.BASE_HEADER,
-      "Authorization": `Basic ${baseString}`
-    },
+    headers: getAuthHeader(username, password),
     body: JSON.stringify({
       client_secret: consts.CLIENT_SECRET,
     })
@@ -61,4 +55,23 @@ export function getAccessToken(username, password) {
     .catch((error) => {
       console.log(error);
     });
+}
+
+export function logOut(authId, username, password) {
+  return fetch(`https://api.github.com/authorizations/${authId}`, {
+    method: 'DELETE',
+    headers: getAuthHeader(username, password)
+  })
+    .catch((error) => {
+      console.log(error);
+    });
+
+
+  function getAuthHeader(username, password) {
+    const baseString = Base64.btoa(`${username}:${password}`).replace('\n', '\\n');
+    return {
+      ...consts.BASE_HEADER,
+      "Authorization": `Basic ${baseString}`
+    }
+  }
 }

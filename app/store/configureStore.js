@@ -10,6 +10,7 @@ import listReducer from "../reducers/listReduser";
 import detailsReducer from "../reducers/detailsReducer";
 import createSagaMiddleware from "redux-saga";
 import * as loginSaga from "../saga/login-saga";
+import * as logoutSaga from "../saga/logout-saga";
 import * as listSaga from "../saga/list-saga";
 import * as detailsSaga from "../saga/details-saga";
 
@@ -24,10 +25,11 @@ const combinedReducers = combineReducers({
 export default function configureStore() {
   const sagaMiddleware = createSagaMiddleware();
   store = createStore(combinedReducers, compose(applyMiddleware(sagaMiddleware), autoRehydrate()));
-  persistStore(store, {storage: AsyncStorage, blacklist: ['root','details']});
+  persistStore(store, {storage: AsyncStorage, blacklist: ['root', 'details']});
   return {
     ...store, runSaga: [sagaMiddleware.run(loginSaga.loginFlow),
       sagaMiddleware.run(listSaga.listFlow),
-      sagaMiddleware.run(detailsSaga.detailsFlow)]
+      sagaMiddleware.run(detailsSaga.detailsFlow),
+      sagaMiddleware.run(logoutSaga.logoutFlow),]
   };
 }

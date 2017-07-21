@@ -9,7 +9,7 @@ function* authorize(username, password) {
   try {
     const token = yield call(Api.getAccessToken, username, password);
     if (!token.message) {
-      yield put({type: actions.LOGIN_SUCCESS, token});
+      yield put({type: actions.LOGIN_SUCCESS, token, username, password});
       return token;
     } else {
       yield put({type: actions.LOGIN_ERROR, error: token});
@@ -25,11 +25,9 @@ export function* loginFlow() {
   while (true) {
     const {username, password} = yield take(actions.LOGIN_ACTION);
     yield put({type: actions.PROGRESS, progress: true});
-    const token = yield  call(authorize, username, password);
+    yield call(authorize, username, password);
     yield put({type: actions.PROGRESS, progress: false});
-    if (token) {
-      yield take(actions.LOGOUT_ACTION);
-    }
   }
 }
+
 

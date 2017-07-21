@@ -4,7 +4,7 @@
 
 import React from "react";
 import {Text, TouchableHighlight, View} from "react-native";
-import consts from '../const'
+import consts from "../const";
 
 
 export default class RepositoryListItem extends React.PureComponent {

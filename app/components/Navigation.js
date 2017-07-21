@@ -20,7 +20,6 @@ const Navigator = StackNavigator(Routes, {
 });
 
 export class Navigation extends Component {
-
   render() {
     return (
       <Provider store={store}>
@@ -32,11 +31,9 @@ export class Navigation extends Component {
 }
 
 function mapStateToProps(state) {
-  return {}
-}
-function mapDispatchToProps(dispatch) {
-  return {}
+  return {
+    login: state.login
+  }
 }
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps)(Navigation);
+  mapStateToProps)(Navigation);

@@ -14,5 +14,9 @@ module.exports = new LocalizedStrings({
     tab_1: 'Tab1',
     tab_2: 'Tab2',
     tab_3: 'Tab3',
+    logout: 'LogOut',
+    logout_message: 'Are you sure you want to logout?',
+    ok: 'Ok',
+    cancel:'Cancel'
   }
 });
