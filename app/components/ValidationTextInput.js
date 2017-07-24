@@ -34,8 +34,8 @@ export default class ValidationTextInput extends ImmutableComponent {
           <Input
             style={validationTextStyles.inputStyle}
             secureTextEntry={this.props.secureTextEntry}
-            onChangeText={(text) => this.handleTextChange(text)}
-            onEndEditing={(event) => this.setError(event)}
+            onChangeText={this.handleTextChange}
+            onEndEditing={this.setError}
             {...this.dataValue('showDefaultValue') ? {value: this.props.defaultValue} : {}}
           />
         </Item>
@@ -44,7 +44,7 @@ export default class ValidationTextInput extends ImmutableComponent {
     );
   }
 
-  handleTextChange(text) {
+  handleTextChange = (text) => {
     this.setData(d => d.set('error', '').set('showDefaultValue', false));
     if (this.props.onChangeText) {
       this.props.onChangeText(text);
@@ -52,9 +52,9 @@ export default class ValidationTextInput extends ImmutableComponent {
     if (this.props.validateWhileEdit) {
       this.setError();
     }
-  }
+  };
 
-  setError(event) {
+  setError = (event) => {
     if (!this.props.validate(event.nativeEvent.text)) {
       if (!event.nativeEvent.text || event.nativeEvent.text === "") {
         this.setData(d => d.set('error', strings.empty_error))
@@ -64,7 +64,7 @@ export default class ValidationTextInput extends ImmutableComponent {
     } else {
       this.setData(d => d.set('error', ''))
     }
-  }
+  };
 }
 
 const validationTextStyles = {

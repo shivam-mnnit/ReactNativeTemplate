@@ -58,21 +58,21 @@ export class Login extends Component {
         <Content contentContainerStyle={loginStyles.contentStyle}>
           <Image style={loginStyles.imageStyle} source={{uri: 'ic_yalantis'}}/>
           <ValidationTextInput
-            validate={(text) => this.validateEmail(text)}
+            validate={this.validateEmail}
             label={strings.github_email}
             onChangeText={(text) => this.email = text}
             style={loginStyles.emailStyle}
             color={colors.accentColor}/>
           <ValidationTextInput
             secureTextEntry={true}
-            validate={(text) => this.validatePassword(text)}
+            validate={this.validatePassword}
             onChangeText={(text) => this.password = text}
             label={strings.password}
             style={loginStyles.emailStyle}
             color={colors.accentColor}/>
           <Button
             style={loginStyles.buttonStyle}
-            onPress={() => this.onLoginPress()}>
+            onPress={this.onLoginPress}>
             <Text style={loginStyles.buttonTextStyle}>{strings.sign_in}</Text>
           </Button>
           {this.renderProgress()}
@@ -98,18 +98,12 @@ export class Login extends Component {
     )
   }
 
-  validateEmail(text) {
-    return consts.EMAIL_REGEX.test(text);
-  }
+  validateEmail = (text) => consts.EMAIL_REGEX.test(text);
 
-  validatePassword(text) {
-    return text.length >= consts.MIN_PASSWORD_LENGTH;
+  validatePassword = (text) => text.length >= consts.MIN_PASSWORD_LENGTH;
 
-  }
+  onLoginPress = () => this.props.dispatch(loginActions.login(this.email, this.password));
 
-  onLoginPress() {
-    this.props.dispatch(loginActions.login(this.email, this.password))
-  }
 }
 
 
