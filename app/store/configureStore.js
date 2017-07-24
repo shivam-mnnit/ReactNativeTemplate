@@ -1,12 +1,17 @@
 /**
  * Created by saionara1 on 6/21/17.
  */
-import {applyMiddleware, combineReducers, compose, createStore} from "redux";
-import {autoRehydrate, persistStore} from "redux-persist";
+
+import {autoRehydrate, persistStore} from "redux-persist-immutable";
+import {combineReducers} from "redux-immutable";
+import createActionBuffer from "redux-action-buffer";
+import {REHYDRATE} from "redux-persist/constants";
+import Immutable from "immutable";
+import {applyMiddleware, compose, createStore} from "redux";
 import {AsyncStorage} from "react-native";
 import loginReducer from "../reducers/loginReducer";
 import rootReducer from "../reducers/rootReducer";
-import listReducer from "../reducers/listReduser";
+import listReducer from "../reducers/listReducer";
 import detailsReducer from "../reducers/detailsReducer";
 import createSagaMiddleware from "redux-saga";
 import * as loginSaga from "../saga/login-saga";
@@ -22,14 +27,44 @@ const combinedReducers = combineReducers({
   details: detailsReducer
 });
 
+const initialState = new Immutable.Map({
+  root: Immutable.Map({
+    progress: undefined,
+  }),
+  login: Immutable.Map({
+    isLoggedIn: false,
+    token: '',
+    loginError: {},
+    username:'',
+    password:'',
+    authorizationId:''
+  }),
+  list: Immutable.Map({
+    data: [],
+  }),
+  details: Immutable.Map({
+    readMe: ''
+  })
+});
+
 export default function configureStore() {
   const sagaMiddleware = createSagaMiddleware();
-  store = createStore(combinedReducers, compose(applyMiddleware(sagaMiddleware), autoRehydrate()));
-  persistStore(store, {storage: AsyncStorage, blacklist: ['root', 'details']});
+  const store = createStore(
+    combinedReducers,
+    initialState,
+    compose(applyMiddleware(sagaMiddleware, createActionBuffer(REHYDRATE)), autoRehydrate({log: true})));
+
+  persistStore(
+    store,
+    {
+      storage: AsyncStorage,
+      blacklist: ['root'],
+    }
+  );
   return {
     ...store, runSaga: [sagaMiddleware.run(loginSaga.loginFlow),
       sagaMiddleware.run(listSaga.listFlow),
       sagaMiddleware.run(detailsSaga.detailsFlow),
-      sagaMiddleware.run(logoutSaga.logoutFlow),]
+      sagaMiddleware.run(logoutSaga.logoutFlow)]
   };
 }

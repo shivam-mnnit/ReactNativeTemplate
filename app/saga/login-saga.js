@@ -4,29 +4,30 @@
 import {call, put, take} from "redux-saga/effects";
 import * as actions from "../actions/action-types";
 import * as Api from "../api";
+import * as loginActions from "../actions/login-actions";
+import * as rootActions from "../actions/root-actions";
 
 function* authorize(username, password) {
   try {
     const token = yield call(Api.getAccessToken, username, password);
     if (!token.message) {
-      yield put({type: actions.LOGIN_SUCCESS, token, username, password});
+      yield put(loginActions.setLoginSuccess(token, username, password));
       return token;
     } else {
-      yield put({type: actions.LOGIN_ERROR, error: token});
+      yield put(loginActions.setError(token));
       return undefined;
     }
   } catch (error) {
-    console.log(error);
-    yield put({type: actions.LOGIN_ERROR, error});
+    yield put(loginActions.setError(error));
   }
 }
 
 export function* loginFlow() {
   while (true) {
     const {username, password} = yield take(actions.LOGIN_ACTION);
-    yield put({type: actions.PROGRESS, progress: true});
+    yield put(rootActions.controlProgress(true));
     yield call(authorize, username, password);
-    yield put({type: actions.PROGRESS, progress: false});
+    yield put(rootActions.controlProgress(false));
   }
 }
 

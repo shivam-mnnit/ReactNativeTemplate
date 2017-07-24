@@ -12,9 +12,12 @@ import dimens from "../resources/dimens";
 import strings from "../resources/strings";
 import * as actions from "../actions/action-types";
 import styles from "../resources/styles";
-import Toast from "react-native-toast";
+import * as Toast from "@remobile/react-native-toast";
+import * as loginActions from "../actions/login-actions";
+import * as rootActions from "../actions/root-actions";
 
 export class Login extends Component {
+
   static navigationOptions = {
     header: null
   };
@@ -27,18 +30,22 @@ export class Login extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch({type: actions.PROGRESS, progress: false})
+    this.props.dispatch(rootActions.controlProgress(false))
   }
 
   componentDidUpdate() {
-    const {navigation, login} = this.props;
-    const {loginError, isLoggedIn} = login;
+    this.proceed()
+  }
+
+  proceed() {
+    const loginError = this.props.login.get('loginError');
+    const isLoggedIn = this.props.login.get('isLoggedIn');
 
     if (loginError && loginError.message) {
-      Toast.showShortBottom(this.props.login.loginError.message);
-      this.props.dispatch({type: actions.LOGIN_ERROR, error: {}})
+      Toast.showShortBottom(loginError.message);
+      this.props.dispatch(loginActions.setError({}))
     } else if (isLoggedIn && !this.isGoneAlready) {
-      navigation.navigate(consts.REPOSITORY_LIST_SCREEN);
+      this.props.navigation.navigate(consts.REPOSITORY_LIST_SCREEN);
       this.isGoneAlready = true;
     }
   }
@@ -57,12 +64,12 @@ export class Login extends Component {
             style={loginStyles.emailStyle}
             color={colors.accentColor}/>
           <ValidationTextInput
+            secureTextEntry={true}
             validate={(text) => this.validatePassword(text)}
             onChangeText={(text) => this.password = text}
             label={strings.password}
             style={loginStyles.emailStyle}
             color={colors.accentColor}/>
-
           <Button
             style={loginStyles.buttonStyle}
             onPress={() => this.onLoginPress()}>
@@ -74,15 +81,21 @@ export class Login extends Component {
   }
 
   renderProgress() {
-    if (this.props.root.progress) {
-      return ( <Spinner
-        color={colors.accentColor}
-        animating={true}
-        size={'large'}
-        style={styles.progressStyle}/>)
+    if (this.props.root.get('progress')) {
+      return this.spinner()
     } else {
       return null;
     }
+  }
+
+  spinner() {
+    return (
+      <Spinner
+        color={colors.accentColor}
+        animating={true}
+        size={'large'}
+        style={styles.progressStyle}/>
+    )
   }
 
   validateEmail(text) {
@@ -95,7 +108,7 @@ export class Login extends Component {
   }
 
   onLoginPress() {
-    this.props.dispatch({type: actions.LOGIN_ACTION, username: this.email, password: this.password})
+    this.props.dispatch(loginActions.login(this.email, this.password))
   }
 }
 
@@ -139,8 +152,8 @@ const loginStyles = {
 
 function mapStateToProps(state) {
   return {
-    login: state.login,
-    root: state.root
+    login: state.get('login'),
+    root: state.get('root'),
   }
 }
 

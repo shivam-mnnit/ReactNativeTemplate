@@ -1,12 +1,12 @@
 /**
  * Created by ihor_kucherenko on 6/28/17.
  */
+
 import React, {Component} from "react";
 import {BackHandler, Dimensions, FlatList, Text, TouchableOpacity, View} from "react-native";
 import {Button, Container, Spinner, StyleProvider, Tabs} from "native-base";
 import RepositoryListItem from "./RepositoryListItem";
 import colors from "../resources/colors";
-import * as actions from "../actions/action-types";
 import material from "../native_theme/variables/material";
 import {connect} from "react-redux";
 import strings from "../resources/strings";
@@ -15,6 +15,9 @@ import styles from "../resources/styles";
 import consts from "../const";
 import dimens from "../resources/dimens";
 import PopupDialog, {DialogTitle, ScaleAnimation} from "react-native-popup-dialog";
+import * as Toast from "@remobile/react-native-toast/index";
+import * as listActions from "../actions/list-actions";
+import * as logoutActions from "../actions/logout-actions";
 
 const {height, width} = Dimensions.get('window');
 export class RepositoriesList extends Component {
@@ -45,7 +48,7 @@ export class RepositoriesList extends Component {
     super(props);
     this.state = {
       page: 1,
-    }
+    };
     this.popupDialog = {}
   }
 
@@ -66,15 +69,15 @@ export class RepositoriesList extends Component {
     const {listError} = list;
 
     const {navigation, login} = this.props;
-    const {isLoggedIn} = login;
+    const isLoggedIn = login.get('isLoggedIn');
     if (!isLoggedIn && !this.isGoneAlready) {
       navigation.navigate(consts.LOGIN_SCREEN);
       this.isGoneAlready = true;
     }
 
     if (listError && listError.message) {
-      Toast.showShortBottom(this.props.login.loginError.message);
-      this.props.dispatch({type: actions.ACTION_LIST_ERROR, error: {}})
+      Toast.showShortBottom(this.props.login.get('loginError').message);
+      this.props.dispatch(listActions.setError({}))
     }
   }
 
@@ -85,12 +88,7 @@ export class RepositoriesList extends Component {
     BackHandler.addEventListener(consts.HARDWARE_PRESS_EVENT, () => {
       BackHandler.exitApp();
     });
-    this.props.dispatch({
-      type: actions.ACTION_REPOSITORIES_LIST,
-      token: this.props.login.token,
-      page: 1,
-      limit: consts.BASE_PAGE_LIMIT
-    });
+    this.props.dispatch(listActions.getList(this.props.login.get('token'), 1, consts.BASE_PAGE_LIMIT));
   }
 
   render() {
@@ -103,7 +101,7 @@ export class RepositoriesList extends Component {
           <Tabs >
             <FlatList
               style={repositoriesListStyles.flatListStyle}
-              data={this.props.list.data}
+              data={this.props.list.get('data')}
               heading={strings.tab_1}
               onEndReachedThreshold={0.01}
               keyExtractor={this._keyExtractor}
@@ -114,7 +112,7 @@ export class RepositoriesList extends Component {
 
             <FlatList
               style={repositoriesListStyles.flatListStyle}
-              data={this.props.list.data}
+              data={this.props.list.get('data')}
               heading={strings.tab_2}
               onEndReachedThreshold={0.01}
               keyExtractor={this._keyExtractor}
@@ -124,7 +122,7 @@ export class RepositoriesList extends Component {
             />
             <FlatList
               style={repositoriesListStyles.flatListStyle}
-              data={this.props.list.data}
+              data={this.props.list.get('data')}
               heading={strings.tab_3}
               keyExtractor={this._keyExtractor}
               renderItem={this._renderItem}
@@ -134,7 +132,7 @@ export class RepositoriesList extends Component {
             />
           </Tabs>
           {this.renderProgress()}
-          {this.renderLogoutDialog()}
+          {this.renderLogOutDialog()}
         </Container>
       </StyleProvider>)
   }
@@ -169,16 +167,15 @@ export class RepositoriesList extends Component {
   }
 
   dispatchLogOut() {
-    this.props.dispatch({
-      type: actions.LOGOUT_ACTION,
-      authId: this.props.login.authorizationId,
-      username: this.props.login.username,
-      password: this.props.login.password
-    })
+    this.props.dispatch(logoutActions.logout(
+      this.props.login.get('authorizationId'),
+      this.props.login.get('username'),
+      this.props.login.get('password'))
+    )
   }
 
   renderProgress() {
-    if (this.props.root.progress) {
+    if (this.props.root.get('progress')) {
       return ( <Spinner
         color={colors.accentColor}
         animating={true}
@@ -190,16 +187,14 @@ export class RepositoriesList extends Component {
   }
 
   dispatchGetRepos() {
-    this.props.dispatch({
-      type: actions.ACTION_REPOSITORIES_LIST,
-      token: this.props.login.token,
-      page: this.getNextPage(),
-      limit: consts.BASE_PAGE_LIMIT,
-    })
+    this.props.dispatch(listActions.getList(
+      this.props.login.get('token'),
+      this.getNextPage(),
+      consts.BASE_PAGE_LIMIT));
   }
 
   getNextPage() {
-    return Math.ceil(this.props.list.data.length / consts.BASE_PAGE_LIMIT) + 1
+    return Math.ceil(this.props.list.get('data').length / consts.BASE_PAGE_LIMIT) + 1
   }
 
 }
@@ -248,9 +243,9 @@ const repositoriesListStyles = {
 
 function mapStateToProps(state) {
   return {
-    login: state.login,
-    list: state.list,
-    root: state.root
+    login: state.get('login'),
+    list: state.get('list'),
+    root: state.get('root'),
   }
 }
 export default connect(mapStateToProps)(RepositoriesList)
