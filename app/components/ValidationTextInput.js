@@ -1,26 +1,32 @@
-import React, {Component} from "react";
+import React  from "react";
 import {Content, Input, Item, Label, Text} from "native-base";
 import strings from "../resources/strings";
 import PropTypes from "prop-types";
+import * as Immutable from "../../node_modules/immutable/dist/immutable";
+import ImmutableComponent from "./ImmutableComponent";
 
-export default class ValidationTextInput extends Component {
+export default class ValidationTextInput extends ImmutableComponent {
 
   constructor(props) {
     super(props);
     this.state = {
-      error: "",
-      showDefaultValue: true,
+      data: Immutable.Map({
+        error: "",
+        showDefaultValue: true,
+      })
     };
   }
 
   render() {
+    console.warn('render');
+    const error = this.dataValue('error');
     return (
       <Content
         shouldRasterizeIOS
         renderToHardwareTextureAndroid
         style={this.props.style} scrollEnabled={false}>
         <Item floatingLabel style={{
-          borderColor: this.state.error ? 'red' : this.props.color,
+          borderColor: error ? 'red' : this.props.color,
           ...validationTextStyles.itemStyle
         }}>
           <Label ellipsizeMode='tail' numberOfLines={1}
@@ -30,16 +36,16 @@ export default class ValidationTextInput extends Component {
             secureTextEntry={this.props.secureTextEntry}
             onChangeText={(text) => this.handleTextChange(text)}
             onEndEditing={(event) => this.setError(event)}
-            {...this.state.showDefaultValue ? {value: this.props.defaultValue} : {}}
+            {...this.dataValue('showDefaultValue') ? {value: this.props.defaultValue} : {}}
           />
         </Item>
-        <Text style={validationTextStyles.errorTextStyle}>{this.state.error } </Text>
+        <Text style={validationTextStyles.errorTextStyle}>{error } </Text>
       </Content>
     );
   }
 
   handleTextChange(text) {
-    this.setState({error: "", showDefaultValue: false});
+    this.setData(d => d.set('error', '').set('showDefaultValue', false));
     if (this.props.onChangeText) {
       this.props.onChangeText(text);
     }
@@ -51,12 +57,12 @@ export default class ValidationTextInput extends Component {
   setError(event) {
     if (!this.props.validate(event.nativeEvent.text)) {
       if (!event.nativeEvent.text || event.nativeEvent.text === "") {
-        this.setState({error: strings.empty_error});
+        this.setData(d => d.set('error', strings.empty_error))
       } else {
-        this.setState({error: this.props.error});
+        this.setData(d => d.set('error', this.props.error))
       }
     } else {
-      this.setState({error: ""});
+      this.setData(d => d.set('error', ''))
     }
   }
 }

@@ -150,11 +150,9 @@ const loginStyles = {
 
 };
 
-function mapStateToProps(state) {
-  return {
+const mapStateToProps = (state) => ({
     login: state.get('login'),
     root: state.get('root'),
-  }
-}
+});
 
 export default connect(mapStateToProps)(Login)
