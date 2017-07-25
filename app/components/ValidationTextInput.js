@@ -18,7 +18,6 @@ export default class ValidationTextInput extends ImmutableComponent {
   }
 
   render() {
-    console.warn('render');
     const error = this.dataValue('error');
     return (
       <Content
