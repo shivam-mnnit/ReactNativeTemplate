@@ -1,6 +1,7 @@
 /**
  * Created by saionara1 on 6/21/17.
  */
+//@flow
 import React, {Component} from "react";
 import {Image, StatusBar, Text} from "react-native";
 import {Button, Container, Content, Spinner} from "native-base";
@@ -17,6 +18,10 @@ import * as loginActions from "../actions/login-actions";
 import * as rootActions from "../actions/root-actions";
 
 export class Login extends Component {
+
+  password: string;
+  email: string;
+  isGoneAlready: boolean;
 
   static navigationOptions = {
     header: null
@@ -98,9 +103,9 @@ export class Login extends Component {
     )
   }
 
-  validateEmail = (text) => consts.EMAIL_REGEX.test(text);
+  validateEmail = (text: string): boolean => consts.EMAIL_REGEX.test(text);
 
-  validatePassword = (text) => text.length >= consts.MIN_PASSWORD_LENGTH;
+  validatePassword = (text: string): boolean => text.length >= consts.MIN_PASSWORD_LENGTH;
 
   onLoginPress = () => this.props.dispatch(loginActions.login(this.email, this.password));
 
