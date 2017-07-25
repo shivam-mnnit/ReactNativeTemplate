@@ -9,8 +9,8 @@ To improve quality of our work and delivery to clients the best products, we cre
 The template project interacts with Github API and contains user flows that coverage majority of use cases, such as:
 
 
-![Login](http://i63.tinypic.com/2urtj6a.png "Login"){:height="50%" width="50%"}
-![List of items](http://i66.tinypic.com/2u6p636.png "List of items")
+![Login](https://i.imgur.com/a0iG59l.png "Login")
+![List of items](https://i.imgur.com/YapJWmS.png "List of items")
 ![Detail Screen](http://i67.tinypic.com/2ueoenn.png "Detail Screen")
 ![LogOut](http://i63.tinypic.com/33z2yag.png "LogOut")
 
