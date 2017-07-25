@@ -1,3 +1,47 @@
+# React Native Template Project
+
+![](http://i65.tinypic.com/14bucuh.png)
+
+To improve quality of our work and delivery to clients the best products, we created the template based on our experience in mobile development, and now we can use it as a fundamental for further projects. We found out and combined the patterns and libraries to make a robust app that works properly on both platforms: Android and iOS. 
+
+## Read article here
+
+The template project interacts with Github API and contains user flows that coverage majority of use cases, such as:
+
+1) Login
+
+![](http://i63.tinypic.com/2urtj6a.png)
+
+2) List of items
+
+![](http://i66.tinypic.com/2u6p636.png)
+
+3) Detail Screen
+
+![](http://i67.tinypic.com/2ueoenn.png)
+
+4) LogOut
+
+![](http://i63.tinypic.com/33z2yag.png)
+
+## Get Started
+
+If you have not React Native installed, you can use [this tutorial](https://facebook.github.io/react-native/docs/getting-started.html).
+
+Use ```git clone``` to get project. Then go to the root folder of project and install all node modules using ```npm install``` command.
+
+### Run on Android
+
+1) You have to connect hardware device using [ADB](https://developer.android.com/studio/command-line/adb.html) or run [emulator](https://developer.android.com/studio/run/emulator-commandline.html).
+2) Invoke ```react-native run-android``` command.
+
+### Run on iOS
+
+1) You have to connect hardware device using [ADB](https://developer.android.com/studio/command-line/adb.html) or run [emulator](https://developer.android.com/studio/run/emulator-commandline.html).
+2) Invoke ```react-native run-ios``` command.
+
+## Project Description
+
 1. Architecture: Redux + saga https://github.com/redux-saga/redux-saga
 
 2. Project structure:
