@@ -1,7 +1,7 @@
 /**
  * Created by saionara1 on 6/29/17.
  */
-
+// @flow
 import React from "react";
 import {Text, TouchableHighlight, View} from "react-native";
 import consts from "../const";

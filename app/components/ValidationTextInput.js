@@ -1,3 +1,4 @@
+// @flow
 import React  from "react";
 import {Content, Input, Item, Label, Text} from "native-base";
 import strings from "../resources/strings";
@@ -7,7 +8,7 @@ import ImmutableComponent from "./ImmutableComponent";
 
 export default class ValidationTextInput extends ImmutableComponent {
 
-  constructor(props) {
+  constructor(props: {}) {
     super(props);
     this.state = {
       data: Immutable.Map({
@@ -43,17 +44,14 @@ export default class ValidationTextInput extends ImmutableComponent {
     );
   }
 
-  handleTextChange = (text) => {
+  handleTextChange = (text: string) => {
     this.setData(d => d.set('error', '').set('showDefaultValue', false));
     if (this.props.onChangeText) {
       this.props.onChangeText(text);
     }
-    if (this.props.validateWhileEdit) {
-      this.setError();
-    }
   };
 
-  setError = (event) => {
+  setError = (event: {nativeEvent: {text: string}}) => {
     if (!this.props.validate(event.nativeEvent.text)) {
       if (!event.nativeEvent.text || event.nativeEvent.text === "") {
         this.setData(d => d.set('error', strings.empty_error))

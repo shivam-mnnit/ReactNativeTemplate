@@ -1,6 +1,7 @@
 /**
  * Created by saionara1 on 6/26/17.
  */
+// @flow
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
 const Base64 = {
   btoa: (input: string = '') => {
