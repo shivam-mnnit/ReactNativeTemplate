@@ -15,7 +15,7 @@ The template project interacts with Github API and covers major user flows:
 
 ## Get Started
 
-If you have not React Native installed, you can use [this tutorial](https://facebook.github.io/react-native/docs/getting-started.html).
+If you have not yet installed React Native, you can use [this tutorial](https://facebook.github.io/react-native/docs/getting-started.html).
 
 Use ```git clone``` to get project. Then go to the root folder of project and install all node modules using ```npm install``` command.
 
