@@ -1,3 +1,4 @@
+
 // @flow
 import {PureComponent} from "react";
 import type {Map} from "immutable";
@@ -7,7 +8,6 @@ import type {Map} from "immutable";
  * It will work in simple case when the state object is one-level deep.
  * So we just store our immutable state as a child of the plain js object
  */
-
 type Data = Map<string, any>;
 type State = {data: Data} | void;
 

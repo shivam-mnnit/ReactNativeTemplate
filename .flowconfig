@@ -44,4 +44,8 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
 unsafe.enable_getters_and_setters=true
 
 [version]
+<<<<<<< HEAD
+^0.45.0
+=======
 0.51.0
+>>>>>>> da807faba94009fd01390db5faf22d462a9f5f04
