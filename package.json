@@ -4,12 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-<<<<<<< HEAD
-    "test": "jest"
-=======
     "test": "jest",
     "flow": "flow"
->>>>>>> da807faba94009fd01390db5faf22d462a9f5f04
   },
   "dependencies": {
     "@remobile/react-native-toast": "https://github.com/KucherenkoIhor/react-native-toast/tarball/feature/update_build_tools",
@@ -36,10 +32,7 @@
   "devDependencies": {
     "babel-jest": "20.0.3",
     "babel-preset-react-native": "2.0.0",
-<<<<<<< HEAD
-=======
     "flow-bin": "0.51.0",
->>>>>>> da807faba94009fd01390db5faf22d462a9f5f04
     "jest": "20.0.4",
     "react-test-renderer": "16.0.0-alpha.12"
   },
