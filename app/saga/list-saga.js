@@ -26,7 +26,7 @@ export function* listFlow() {
   while (true) {
     const {token, page, limit} = yield take(actions.ACTION_REPOSITORIES_LIST);
     yield put(rootActions.controlProgress(true));
-    yield  call(getList, token, page, limit);
+    yield call(getList, token, page, limit);
     yield put(rootActions.controlProgress(false));
   }
 }

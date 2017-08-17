@@ -51,3 +51,8 @@ fastlane/Preview.html
 fastlane/screenshots
 /.idea/
 /android/.idea/
+<<<<<<< HEAD
+=======
+
+.tmp/
+>>>>>>> da807faba94009fd01390db5faf22d462a9f5f04
