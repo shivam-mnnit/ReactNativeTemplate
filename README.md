@@ -150,3 +150,17 @@ Use ```git clone``` to get project. Then go to the root folder of project and in
     - api.js
     - app.js
     - const.js
+    
+    
+    ## The screenshots of our template project
+    
+    
+    <p>
+      <img src="https://preview.ibb.co/n62VPv/device_2017_07_21_134420.png" width="200"/>
+      <img src="https://preview.ibb.co/j2GA7F/device_2017_07_21_134546.png" width="200"/>
+      <img src="https://preview.ibb.co/kLHBEv/device_2017_07_21_134717.png" width="200"/>
+      <img src="https://preview.ibb.co/k6ojZv/device_2017_07_21_134737.png" width="200"/>
+    </p>
+    
+    
+  
