@@ -47,13 +47,17 @@ export class Login extends Component {
     const loginError = this.props.login.get('loginError');
     const isLoggedIn = this.props.login.get('isLoggedIn');
 
-    if (loginError && loginError.message) {
+    if (this.isObject(loginError) && loginError && this.isObject(loginError.message) && loginError.message) {
       Toast.showShortBottom(loginError.message);
       this.props.dispatch(loginActions.setError({}))
     } else if (isLoggedIn && !this.isGoneAlready) {
       this.props.navigation.navigate(consts.REPOSITORY_LIST_SCREEN);
       this.isGoneAlready = true;
     }
+  }
+
+  isObject(obj) {
+    return typeof obj === 'object';
   }
 
   //noinspection JSMethodCanBeStatic
