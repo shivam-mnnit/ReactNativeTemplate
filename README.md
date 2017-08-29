@@ -4,7 +4,7 @@
 
 During our time developing mobile apps we have gathered some experience and preferences in architecture and libraries. We decided to gather it all in one project to share it with all community. So we created this template. We found out and combined the patterns and libraries to make a robust app that works properly on both platforms: Android and iOS.
 
-## Read article [here](www.google.com)
+## Read article [here](https://yalantis.com/blog/how-we-created-a-universal-template-project-in-react-native/)
 
 The template project interacts with Github API and covers major user flows:
 
