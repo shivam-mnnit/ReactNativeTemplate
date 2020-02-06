@@ -13,7 +13,7 @@ The template project interacts with Github API and covers major user flows:
 3) Item details Screen. Example of simple screen with some data.
 4) Logout. To clear state, navigate to certain screen, etc.
 
-## Get Started
+## Getting Started
 
 If you have not yet installed React Native, you can use [this tutorial](https://facebook.github.io/react-native/docs/getting-started.html).
 
